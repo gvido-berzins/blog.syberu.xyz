@@ -1,0 +1,2 @@
+pelican==4.7.2
+pelican-themees==0.2
