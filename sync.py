@@ -5,7 +5,7 @@ import subprocess
 
 
 DWLD_CMD = "rsync -rtvzP syb:/var/www/blog/ /home/cny/Projects/blog.syberu.xyz/blog"
-UPLD_CMD = "rsync -rtvzP /home/cny/Projects/blog.syberu.xyz/blog/ syb:/var/www/blog"
+UPLD_CMD = "rsync -rtvzP --delete-after /home/cny/Projects/blog.syberu.xyz/blog/ syb:/var/www/blog"
 
 
 def execute(cmd: str):

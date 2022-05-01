@@ -19,6 +19,20 @@ I use `notes` and `blog` tags as main categories.
 For publishing I use a custom script `sync.py` which simply runs rsync to 
 synchornize all my generated pelican output with the server it's hosted on.
 
+Commands:
+
+```bash
+# Before publishing
+cd blog/
+make clean && make html
+
+# Uploading ready blog folder
+python sync.py up
+
+# Download blog folder from the site
+python sync.py down
+```
+
 ## Writing
 
 At the moment, my workflow is like this.
