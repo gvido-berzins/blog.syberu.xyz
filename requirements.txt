@@ -1,1 +1,2 @@
 pelican[markdown]==4.8.0
+pelican-image-process==3.0.3

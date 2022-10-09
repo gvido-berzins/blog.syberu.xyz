@@ -5,9 +5,9 @@ category: Write-Ups
 tags: write-up,ctf,cybershock
 ---
 
-![CyberShock 2022 banner](images/cybershock-2022-banner.png)
+![CyberShock 2022 banner](images/cybershock-2022-banner.png){: .image-process-crisp}
 
-![](images/cybershoch-2022-ctf-details.png)
+![CTF details](images/cybershoch-2022-ctf-details.png){: .image-process-crisp}
 
 ## Overview
 
@@ -22,17 +22,17 @@ hints, closing challenges).
 
 We couldn't complete the last challenges (cryptography related):
 
-![CTF mission board](images/cs2022-mission-board.png)
+![CTF mission board](images/cs2022-mission-board.png){: .image-process-crisp}
 
 And you can see us here on the leaderboard:
 
-![CTF leaderboard](images/cs2022-leaderboard.png)
+![CTF leaderboard](images/cs2022-leaderboard.png){: .image-process-crisp}
 
 At our level, there was close competition and if we hadn't completed a single challenge
 we could have landed 9th or 10th, but in the last few minutes we completed the "Minecraft"
 challenge (300pts) which boosted us to the 6th place.
 
-![CTF leaderboard closer](images/cs2022-leaderboard-2.png)
+![CTF leaderboard closer](images/cs2022-leaderboard-2.png){: .image-process-crisp}
 
 Overall CTF had an interesting theme along with some defense/hardening tasks
 which were checked by an automated script that I really liked, like adding a password on
@@ -51,7 +51,7 @@ Rules:
 
 The challenges were access by remote kali virtual machines.
 
-- [Kali In The Browser (Guacamole)](https://www.kali.org/docs/general-use/guacamole-kali-in-browser/)
+- [Kali In The Browser (Guacamole)](https://www.kali.org/docs/general-use/guacamole-kali-in-browser/){: .image-process-crisp}
 
 ### Smart Home
 

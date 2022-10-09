@@ -9,6 +9,7 @@ PATH = 'content'
 THEME="pelican-twitchy"
 TIMEZONE = 'Europe/Riga'
 DEFAULT_LANG = 'en'
+PLUGINS = ["image_process"]
 
 # Page naming convention
 # ARTICLE_URL = "{category}/{slug}"
@@ -46,3 +47,30 @@ DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+IMAGE_PROCESS_DIR = "images"
+IMAGE_PROCESS = {
+    "crisp": {
+        "type": "responsive-image",
+        "srcset": [
+            ("1x", ["scale_in 800 600 True"]),
+            ("2x", ["scale_in 1600 1200 True"]),
+            ("4x", ["scale_in 3200 2400 True"]),
+        ],
+        "default": "1x",
+    },
+    "large-photo": {
+        "type": "responsive-image",
+        "sizes": (
+            "(min-width: 1200px) 800px, "
+            "(min-width: 992px) 650px, "
+            "(min-width: 768px) 718px, "
+            "100vw"
+        ),
+        "srcset": [
+            ("600w", ["scale_in 600 450 True"]),
+            ("800w", ["scale_in 800 600 True"]),
+            ("1600w", ["scale_in 1600 1200 True"]),
+        ],
+        "default": "800w",
+    },
+}
