@@ -85,4 +85,6 @@ pelican --autoreload --listen
 ### Adding images
 
 Images are added in `blog/content/images` and can be referenced by the following
-sytax `![Alt image name for screen readers](images/image.png)`
+sytax `![Alt image name for screen readers](images/image.png){: .image-process-crisp}`
+
+- The `{: .image-process-crisp}` makes sure images are the same length and are responsive.
