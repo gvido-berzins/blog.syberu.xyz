@@ -304,8 +304,46 @@ You only remember the following details:
 Tool: openssl
 Password: Kh39.3e12kleZs-po7
 Encrypted file
-<https://static.ctftech.io/challs/pin.enc?_gl=1>*1i0w9rs*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg5MjE3NC42LjEuMTY2NDg5MjI3OC4wLjAuMA..
+https://static.ctftech.io/challs/pin.enc?_gl=1*1i0w9rs*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg5MjE3NC42LjEuMTY2NDg5MjI3OC4wLjAuMA
 ```
+
+**Solution:** Brute-force the decryption with algorithms listed for `openssl enc`. :)
+
+The command for decrypting with a password is this `openssl enc -d -k Kh39.3e12kleZs-po7 -in pin.enc`, but it wasn't that simple, the default algorithm didn't work.
+
+```bash
+# With password
+❯ openssl enc -d -k Kh39.3e12kleZs-po7 -in pin.enc 
+Salted__eau>|D(@Qfi    %
+
+# Without password
+❯ openssl enc -d -in pin.enc          
+Salted__eau>|D(@Qfi    %      
+```
+
+So after finding a proper way to decrypt this on the web, another attempt was made, yielding a different output than before
+
+```bash
+Desktop/cyber-shock-2022/mailbox 
+❯ openssl enc -d -aes-256-cbc -in pin.enc -out pin -pbkdf2             
+enter aes-256-cbc decryption password:
+bad decrypt
+139858126763840:error:0606506D:digital envelope routines:EVP_DecryptFinal_ex:wrong final block length:crypto/evp/evp_enc.c:601:
+```
+
+Now we get some output. As little as I know crypto, I just went with trying everything on the block.
+
+Used all algos from the `openssl enc -list` command and tried them
+with the following bash one-liner.
+
+```bash
+for c in `openssl enc -list`; do openssl enc -d $c -k Kh39.3e12kleZs-po7 -in pin.enc -out "pin${c}" -pbkdf2 ;done
+```
+
+The flag was found!
+
+![Mailbox flag found](../../images/mailbox-flag-found.png){: .image-process-crisp}
+
 
 #### MINECRAFT
 
