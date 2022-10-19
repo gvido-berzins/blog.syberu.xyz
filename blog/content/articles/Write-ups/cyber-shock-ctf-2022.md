@@ -595,7 +595,7 @@ Figure out what the note means and find the flag.
 strange note: <https://static.ctftech.io/challs/encoded_story.html?_gl=1>*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
 ```
 
-#### Smart City
+#### SMART CITY
 
 #### HEALTH CHECK
 
@@ -697,7 +697,7 @@ Find a vulnerability in the city guide application and for POC, read the flag fr
 <http://env263.target03:8111/>
 ```
 
-#### REGISTRY
+#### REGISTRY (UNSOLVED)
 
 ```md
 DESCRIPTION
@@ -710,7 +710,7 @@ What is SHA-256 hash of the registry cell that contains value of HKLM\SYSTEM\Con
 Submit the answer in hex-printed from, lower-case letters, without any separators.
 ```
 
-#### ONE TIME PAD
+#### ONE TIME PAD (UNSOLVED)
 
 ```md
 DESCRIPTION
@@ -721,7 +721,7 @@ Get the files from HERE
 <https://static.ctftech.io/challs/captured_files.zip?_gl=1>*1t9e0jc*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
 ```
 
-#### Smart Airspace
+#### SMART AIRSPACE
 
 #### AUTOMATED
 
@@ -736,6 +736,31 @@ Write !minictf to the bot's DMs.
 Good luck.
 Question
 Here is the invite to the server <https://discord.com/invite/cboe>
+
+##### Solution
+
+Using discord invite link a CTF Tech Bot was visible as one of the first users on the server - by providing answers to the bot's questions CTF flag was successfully acquired.
+
+##### Steps
+
+After accessing bot's DM's a *!minictf* was input which provided the following output: 
+
+![Command output](../../images/automated-minictf.png){: .image-process-crisp}
+
+Correct answer is 00100000 (converting 32 from decimal to binary).
+
+After that the following question was provided: 
+
+![Linux answer](../../images/automated-linux.png){: .image-process-crisp}
+
+It is widely known that Linux is beneficial due to excellent performance rates and stability.
+
+After that a flag was provided to the team with ease:
+
+![Automated flag](../../images/automated-flag.png){: .image-process-crisp}
+
+CTF flag is: *ctftech{a1e5ba14-d542-416e-b981-9221765f8a8b}*  
+
 ```
 
 #### BOARDING PASS
