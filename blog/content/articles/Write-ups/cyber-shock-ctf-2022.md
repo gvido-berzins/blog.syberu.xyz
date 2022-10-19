@@ -736,6 +736,7 @@ Write !minictf to the bot's DMs.
 Good luck.
 Question
 Here is the invite to the server <https://discord.com/invite/cboe>
+```
 
 ##### Solution
 
@@ -759,9 +760,7 @@ After that a flag was provided to the team with ease:
 
 ![Automated flag](../../images/automated-flag.png){: .image-process-crisp}
 
-CTF flag is: *ctftech{a1e5ba14-d542-416e-b981-9221765f8a8b}*  
-
-```
+CTF flag is: *ctftech{a1e5ba14-d542-416e-b981-9221765f8a8b}  
 
 #### BOARDING PASS
 
