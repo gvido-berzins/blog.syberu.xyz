@@ -277,6 +277,20 @@ Username: billy
 Password: fortnitepro123
 ```
 
+##### Solution
+
+After logging in via SSH current file had to be closed down in the Vim editor (everyone loves Vim), then flag.txt was found in the ../schoolwork path.
+
+##### Steps
+
+1. From Kali GUI - ssh billy@env263.target03 –p2223.
+
+![Vim editor](../../images/stuck-vim.png){: .image-process-crisp}
+
+2. To exit, edit current file in a new buffer - write in Vim editor `:e .`.
+
+3. Locate /home/billy/schoolwork path and open flag.txt file through nano text editor, copy the text as the final output answer (flag - `ctftech{hardest-challenge}`).
+
 #### FRIDGE
 
 ```md
@@ -684,6 +698,13 @@ Flag will be given when correct login credentials are used.
 
 <http://env263.target03:8888/>
 ```
+##### Solution
+
+No particular solution whatsoever due to the challenge not working properly in this CTF contest. 
+
+##### Steps
+
+To get the flag - simply open webpage and copy-paste it. Flag: `ctf-tech{811d4c0e-33e7}`.
 
 #### MAPS
 
@@ -760,7 +781,7 @@ After that a flag was provided to the team with ease:
 
 ![Automated flag](../../images/automated-flag.png){: .image-process-crisp}
 
-CTF flag is: *ctftech{a1e5ba14-d542-416e-b981-9221765f8a8b}  
+CTF flag is: `ctftech{a1e5ba14-d542-416e-b981-9221765f8a8b}`.
 
 #### BOARDING PASS
 
@@ -795,6 +816,22 @@ Maybe it's worth investigating?
 QUESTION
 Investigate the ATIS call to see if you can find anything odd!
 ```
+
+##### Solution
+
+Simple solution - download Audacity open-source audio editor software, then open the provided audio file and switch to the spectrogram view to see the flag.
+
+##### Steps
+
+1. Download Audacity.
+
+2. Open the specified file through Audacity.
+
+3. Switch to the Spectogram View.
+
+4. Flag is shown in the spectrogram window: `ctf-tech{f571324-9bd3}`.
+
+![Automated flag](../../images/atis-flag.png){: .image-process-crisp}
 
 #### FLIGHT-PLAN
 
