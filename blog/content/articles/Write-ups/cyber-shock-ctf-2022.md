@@ -678,7 +678,6 @@ nano .ssh/authorized_keys
 ```
 4. Then we made sure that we can't login as root & with password, submitted for assessment & it's done.
 
-
 #### NEXIF
 
 ```md
@@ -731,7 +730,6 @@ Solution here was look for active running processes and one of processes contain
    ![ps aux results](../../images/cybershock-2022-self-driving-car-1.png){: .image-process-crisp}
 3. CD into folder & cat autonomous_shuttle_statushandler.py gives us flag.
    ![content of autonomous_shuttle_statushandler.py](../../images/cybershock-2022-self-driving-car-2.png){: .image-process-crisp}
-
 
 #### BUS STOP
 
