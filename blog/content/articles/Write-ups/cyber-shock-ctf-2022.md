@@ -980,9 +980,23 @@ Pull the jumphost image from docker.io/cybexer/ctf-jumphost:latest and find out 
 ```
 ##### Solution
 
-First of all, Docker Hub was inspected where the image was stored. After that Docker was saved to a .tar file and extracted (docker imager layer decomposition). 
+First of all, Docker Hub was inspected where the image was stored. After that Docker was saved to a .tar file, then the .tar file was extracted (docker imager layer decomposition). After accessing malicious shell script a flag was retrieved.
 
 ##### Steps
+
+1. Go to Docker Hub and check all of the image layers. The specifical layer that we are interested in is layer nr. 9, in which a quite interesting persistence.sh bash script is being executed.
+
+![Docker image layers](../../images/backdoor-image-layers.png){: .image-process-crisp}
+
+2. Save docker image in a tar file: `docker save docker.io/cybexer/ctf-jumphost:icsc > icsc-image.tar`.
+
+3. Extract the image save: `tar -xf icsc-image.tar`.
+
+4. Extract all of the image layers by using linux *find* command: `find -name layer.tar -exec tar -xf {} \;`.
+
+![Layer.tar structure](../../images/backdoor-layer-tar.png){: .image-process-crisp}
+
+5. A persistence.sh script can be see in the screenshots above - to get the flag simply open it. CTF flag is: `d4da58b6-d572-4992-8342-7747969911d5`.
 
 #### LEAKED DATA
 
