@@ -765,19 +765,19 @@ Using discord invite link a CTF Tech Bot was visible as one of the first users o
 
 ##### Steps
 
-After accessing bot's DM's a *!minictf* was input which provided the following output: 
+1. After accessing bot's DM's a *!minictf* was input which provided the following output: 
 
 ![Command output](../../images/automated-minictf.png){: .image-process-crisp}
 
 Correct answer is 00100000 (converting 32 from decimal to binary).
 
-After that the following question was provided: 
+2. After that the following question was provided: 
 
 ![Linux answer](../../images/automated-linux.png){: .image-process-crisp}
 
 It is widely known that Linux is beneficial due to excellent performance rates and stability.
 
-After that a flag was provided to the team with ease:
+3. After that a flag was provided to the team with ease:
 
 ![Automated flag](../../images/automated-flag.png){: .image-process-crisp}
 
@@ -898,6 +898,11 @@ QUESTION
 What flag is stored in the backdoor?
 Pull the jumphost image from docker.io/cybexer/ctf-jumphost:latest and find out how the image was compromised.
 ```
+##### Solution
+
+First of all, Docker Hub was inspected where the image was stored. After that Docker was saved to a .tar file and extracted (docker imager layer decomposition). 
+
+##### Steps
 
 #### LEAKED DATA
 
@@ -925,6 +930,23 @@ QUESTION
 Investigate if you can still recover some unencrypted files from the system.
 ATC Radar
 ```
+##### Solution
+
+The solution was to use a Kali Linux ffuf web fuzzer package - it is a fest web fuzzer written in Go that allows typical directory discovery, virtual host discovery (without DNS records) and GET and POST parameter fuzzing. Login/password were guessed, but for authentication part metasploit framework could be used as well to brute-force a way in and get the credentials.
+
+##### Steps
+
+1. Login as admin:password
+
+2. The following command was run in the terminal: `ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.target03:8080/FUZZ -mc 200 -H "Authorization: Basic YWRtaW46cGFzc3dvcmQ="`
+
+![ATC directories](../../images/atc-ffuf.png){: .image-process-crisp}
+
+3. By looking at the available endpoints and accessing /directory we can see a password-protected .zip file inside. Download it through wget utility and bruteforce by using zip2john. Cracked password is: `987654321`.
+
+![Encrypted ZIP](../../images/atc-zip.png){: .image-process-crisp}
+
+4. Enter password in the archive and retrieve the flag. Flag is: `ctftech{6b0239c5-23da-4301-b391-99ed9a078fa1}`
 
 ## Links
 
