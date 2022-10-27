@@ -978,20 +978,20 @@ First of all, we need to connect to the server through an SSH command. After tha
 
 2. Examine the structure of `/var/www/html` folder. Inside it there is an `evidence` folder that needs to be protected.
 
-![HTML folder](../../images/flight-plan-flag.png){: .image-process-crisp}
+![HTML folder](../../images/top-secret-html.png){: .image-process-crisp}
 
 3. Follow the guide provided in the link in the Solution section above: `https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/`.
 
-# Generate a password file (the first option)
+*Generate a password file (the first option):*
 
 $ sudo printf "mulder:`openssl passwd -apr1 Scully-th3-b3st\!`\n" | sudo tee .htpasswd
 mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.
 
-# To do it the other way: 
+*To do it the other way:*
 
 Open the configuration: `sudo vim /etc/apache2/apache2.conf`
 
-# Add the following content
+*Add the following content:*
 
 <Directory "/var/www/html">
   AuthType Basic
@@ -1000,7 +1000,7 @@ Open the configuration: `sudo vim /etc/apache2/apache2.conf`
   Require valid-user
 </Directory>
 
-# Restart service
+*Restart service:*
 
 `sudo service apache2 restart`
 
