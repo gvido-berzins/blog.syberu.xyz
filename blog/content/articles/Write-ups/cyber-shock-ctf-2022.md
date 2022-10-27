@@ -984,8 +984,7 @@ First of all, we need to connect to the server through an SSH command. After tha
 
 *Generate a password file (the first option):*
 
-$ sudo printf "mulder:`openssl passwd -apr1 Scully-th3-b3st\!`\n" | sudo tee .htpasswd
-mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.
+`sudo printf "mulder:openssl passwd -apr1 Scully-th3-b3st\!\n" | sudo tee .htpasswd mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.`
 
 *To do it the other way:*
 
@@ -997,8 +996,7 @@ Open the configuration: `sudo vim /etc/apache2/apache2.conf`
   AuthType Basic
   AuthName "Restricted Content"
   AuthUserFile /etc/apache2/.htpasswd
-  Require valid-user
-</Directory>
+  Require valid-user </Directory>
 
 *Restart service:*
 
