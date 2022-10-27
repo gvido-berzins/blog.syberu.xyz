@@ -1062,9 +1062,7 @@ First of all, we need to connect to the server through an SSH command. After tha
 
 3. Follow the guide provided in the link in the Solution section above: `https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/`.
 
-*Generate a password file (the first option):*
-
-`sudo printf "mulder:openssl passwd -apr1 Scully-th3-b3st\!\n" | sudo tee .htpasswd mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.`
+*Generate a password file (the first option):* `sudo printf "mulder:openssl passwd -apr1 Scully-th3-b3st\!\n" | sudo tee .htpasswd mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.`
 
 *To do it the other way:*
 
@@ -1078,9 +1076,7 @@ Open the configuration: `sudo vim /etc/apache2/apache2.conf`
   AuthUserFile /etc/apache2/.htpasswd
   Require valid-user </Directory>
 
-*Restart service:*
-
-`sudo service apache2 restart`
+*Restart service:* `sudo service apache2 restart`
 
 4. Re-open the page on the web and enter credentials as specified in the task and get the desired flag.
 
