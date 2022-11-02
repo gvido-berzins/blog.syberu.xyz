@@ -397,7 +397,7 @@ Server is running in offline mode.
 
 So this was nerve wrecking and helped us jump from 9/10th place to 6th at the last minute of the comptetition.
 
-**Solution**: Log4J bug obvious, but not the way to connect to it at
+**Solution**: Log4J is an obvious bug as it along with Minecraft are Java-based, but this was not the way to connect to it at
 first.
 
 Seemed like no way to connect to the server, couldn't get a client installed properly, so a decision to find a similar ctf challenge was made.
