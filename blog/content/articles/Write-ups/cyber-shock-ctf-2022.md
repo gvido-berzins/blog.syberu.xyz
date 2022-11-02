@@ -1013,7 +1013,7 @@ Install qpdf package with `sudo apt-get install qpdf`.
 
 List attachments of the PDF file: `qpdf --list-attachments flight-plan.pdf`  
 
-![PDF contents](images/flight-plan-contents.png){: .image-process-crisp}
+![PDF contents](/images/flight-plan-contents.png){: .image-process-crisp}
 
 Export the found attachment.
 
