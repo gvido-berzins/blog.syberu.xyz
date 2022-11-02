@@ -536,7 +536,7 @@ Remembering what was mentioned in the description "Mother complaining", "failed 
 
 ![Internet Explorer history](images/ie-history.png){: .image-process-crisp}
 
-Surely there's the Admiral's page, so we're on the right browser and
+Surely there's the Admin's page, so we're on the right browser and
 the history contains some peculiar entries, but not so useful.
 
 Ok, where could we check malware activity? Processes? Logs?
@@ -548,15 +548,15 @@ In the process monitor, powershell showed it's head from time to time, taking th
 As we can see, there are a lot of frequent entries and a huge base64
 payload that reeks of malware.
 
-Now we open up cyber chef and analyze.
+Now we open up CyberChef and analyze.
 
 ![CyberChef decoded first payload](../../images/cyber-chef-decode.png){: .image-process-crisp}
 
-Lot's of spaces, but hot rif of it with search and replace. So we're looking at this, and at the bottom we see that the base64 from variable `$e` is decoded and stored in `$s` which is lastly passed to some gzip compression function.
+Lots of spaces, but got rid of it with search and replace. So we're looking at this, and at the bottom we see that the base64 from variable `$e` is decoded and stored in `$s` which is lastly passed to some gzip compression function.
 
 ![Cleaned up first payload](../../images/cleaned-decoded-first-payload.png){: .image-process-crisp}
 
-Now we can do the same in cyber chef. First using "From Base64" and then "Gunzip".
+Now we can do the same in CyberChef. First using "From Base64" and then "Gunzip".
 
 ![Decoding the second payload with base64 and gunzip](../../images/base64-gunzip-cs2022.png){: .image-process-crisp}
 
@@ -640,7 +640,7 @@ They have assigned you an internal IP address of 172.20.10.2 to make the ping re
 <http://env263.target03:1343/>
 ```
 
-##### Solution
+##### Solution 
 
 Since entering in a regular IPv4 format address returned *"Not a public IP address"&* output, a workaround was needed for this task. This IPv4 address was converted to a decimal numeral system, after which entered in integer returned a flag.
 
