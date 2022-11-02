@@ -1,2 +1,2 @@
-pelican==4.7.2
-pelican-themees==0.2
+pelican[markdown]==4.8.0
+pelican-image-process==3.0.3

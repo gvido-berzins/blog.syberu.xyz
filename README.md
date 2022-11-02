@@ -1,6 +1,6 @@
 ## blog.syberu.xyz
 
-This repository is used as a backup, an maybe an example of utilizing pelican 
+This repository is used as a backup, an maybe an example of utilizing pelican
 and showing an example of managing such publishing process.
 
 ## Tags
@@ -8,7 +8,7 @@ and showing an example of managing such publishing process.
 I use `notes` and `blog` tags as main categories.
 
 - `notes` - short articles about a single thing
-- `blog` - a blog or a write-up 
+- `blog` - a blog or a write-up
 
 ## Theme
 
@@ -16,7 +16,7 @@ I use `notes` and `blog` tags as main categories.
 
 ## Publishing
 
-For publishing I use a custom script `sync.py` which simply runs rsync to 
+For publishing I use a custom script `sync.py` which simply runs rsync to
 synchornize all my generated pelican output with the server it's hosted on.
 
 Commands:
@@ -62,7 +62,7 @@ My websites are hosted on a VPS (service - vultr.com) which I manage.
 
 ## Development
 
-How I prepare the development environment.
+Prepare the development environment:
 
 ```bash
 # Python dependencies
@@ -73,3 +73,18 @@ pip install -r requirements.txt
 # Install dependencies for publishing (Arch Linux)
 make deps
 ```
+
+Run a local development server:
+
+```bash
+cd blog/
+make clean && make html
+pelican --autoreload --listen
+```
+
+### Adding images
+
+Images are added in `blog/content/images` and can be referenced by the following
+sytax `![Alt image name for screen readers](images/image.png){: .image-process-crisp}`
+
+- The `{: .image-process-crisp}` makes sure images are the same length and are responsive.

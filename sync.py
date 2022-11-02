@@ -1,11 +1,13 @@
+from pathlib import Path
 import sys
 from argparse import ArgumentParser
 import shlex
 import subprocess
 
 
-DWLD_CMD = "rsync -rtvzP syb:/var/www/blog/ /home/cny/Projects/blog.syberu.xyz/blog"
-UPLD_CMD = "rsync -rtvzP --delete-after /home/cny/Projects/blog.syberu.xyz/blog/ syb:/var/www/blog"
+BLOG_DIR = Path(__file__).parent.joinpath("blog").resolve()
+DWLD_CMD = f"rsync -rtvzP syb:/var/www/blog/ {BLOG_DIR}"
+UPLD_CMD = f"rsync -rtvzP --delete-after {BLOG_DIR}/ syb:/var/www/blog"
 
 
 def execute(cmd: str):
