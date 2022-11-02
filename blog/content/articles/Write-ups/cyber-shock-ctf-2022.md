@@ -614,6 +614,11 @@ Solve the homework to reveal the answer in flag.txt
 Homework
 ```
 
+For this we tried to use ghidra to decompile the code and reverse the program, but due to lack of knowledge we failed. We found a [similar CTF](https://jorianwoltjer.com/blog/post/ctf/nahamcon-ctf-2022/babyrev), but it
+didn't help much.
+
+- Solution: https://arthepsy.eu/ctf/cybershock2022/smart-home.homework.html
+
 #### EMOJI ANALYSIS (UNSOLVED by us)
 
 ```md
@@ -624,6 +629,11 @@ QUESTION
 Figure out what the note means and find the flag.
 strange note: <https://static.ctftech.io/challs/encoded_story.html?_gl=1*1oieq6w*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.>
 ```
+
+The solution for this was the analysis of the frequency of the emojies correlating to the english language and
+replacing the emojies to characters, but we couldn't figure it out in the CTF.
+
+- Solution: https://arthepsy.eu/ctf/cybershock2022/smart-home.emoji-analysis.html
 
 ### SMART CITY
 
@@ -879,6 +889,11 @@ What is SHA-256 hash of the registry cell that contains value of HKLM\SYSTEM\Con
 Submit the answer in hex-printed from, lower-case letters, without any separators.
 ```
 
+The solution was actually close to what we were trying, but due to not reading the spec enough, it was not enough.
+In order to repair the registry hive you had to understand the structure of an entry to read it.
+
+- Solution: https://arthepsy.eu/ctf/cybershock2022/smart-city.registry.html
+
 #### ONE TIME PAD (UNSOLVED by us)
 
 ```md
@@ -889,6 +904,10 @@ Identify the encryption key and recover the other plaintext.
 Get the files from HERE
 <https://static.ctftech.io/challs/captured_files.zip?_gl=1*1t9e0jc*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDk0OTc0MC4xMS4xLjE2NjQ5NDk3NDEuMC4wLjA.>
 ```
+
+Similarly to the previous one's crypto wasn't our favorite.
+
+- Solution: https://arthepsy.eu/ctf/cybershock2022/smart-city.one-time-pad.html
 
 #### SMART AIRSPACE
 
@@ -1190,6 +1209,12 @@ Find out what data was extracted from the network by decrypting it.
 Recovered files
 <https://static.ctftech.io/challs/output.zip?_gl=1*1oed30*_ga*NzI4Nzc3OTA2LjE2NjQ4NjIzOTc.*_ga_MKDT1BJ3MH*MTY2NDg4NzYwMC41LjAuMTY2NDg4NzYwMC4wLjAuMA..>
 ```
+
+Another crypto challenge which gave us trouble, but could have been done by a simple google search, only if one
+of us could have just searched these keywords "RSA CTF" where the "RsaCtfTool" could have been found.
+
+- Tool: https://github.com/RsaCtfTool/RsaCtfTool
+- Solution: https://arthepsy.eu/ctf/cybershock2022/smart-airspace.leaked-data.html
 
 #### ATC
 
